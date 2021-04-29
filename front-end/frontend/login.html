@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <style>
+        /* Bordered form */
+        
+        form {
+            border: 3px solid #04130700;
+            position: relative;
+        }
+        /* Full-width inputs */
+        
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        /* Set a style for all buttons */
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        /* Add a hover effect for buttons */
+        
+        button:hover {
+            opacity: 0.8;
+        }
+        /* Extra style for the cancel button (red) */
+        
+        .cancelbtn {
+            width: auto;
+            padding: 10px 18px;
+            background-color: #f44336;
+        }
+        /* Center the avatar image inside this container */
+        
+        .imgcontainer {
+            text-align: center;
+            margin: 24px 0 12px 0;
+        }
+        /* Avatar image */
+        
+        img.avatar {
+            width: 40%;
+            border-radius: 50%;
+        }
+        /* Add padding to containers */
+        
+        .container {
+            padding: 16px;
+        }
+        /* The "Forgot password" text */
+        
+        span.psw {
+            float: right;
+            padding-top: 16px;
+            color: green;
+        }
+        /* Change styles for span and cancel button on extra small screens */
+        
+        @media screen and (max-width: 300px) {
+            span.psw {
+                display: block;
+                float: none;
+            }
+            .cancelbtn {
+                width: 100%;
+            }
+        }
+        
+        img {
+            align-self: auto;
+            left: 43%;
+            right: 43%;
+            top: 0;
+            bottom: 50%;
+            position: relative;
+            width: auto;
+            height: auto
+        }
+    </style>
+
+</head>
+
+<body>
+    <img src="static\images\Login Logo.jpg" alt="Logo">
+    <form method="post" action="javascript:redirect();" name="login" id="login">
+
+        <div class="container">
+            <label for="uname"><b>Login</b></label>
+            <input type="text" placeholder="Entre com o Nome" name="uname" required>
+
+            <label for="psw"><b>Senha</b></label>
+            <input type="password" placeholder="Entre com a Senha" name="psw" required>
+
+            <button type="submit" onclick="javascript:redirect();">Login</button>
+            <label>
+        <input type="checkbox" checked="checked" name="remember"> Lembrar-me
+      </label>
+        </div>
+
+        <div class="container">
+            <span class=" psw ">Ainda não é Cadastrado? <a href="# ">Crie uma Conta.</a></span>
+        </div>
+    </form>
+
+    <script>
+        function redirect() {
+            location.replace("http://localhost:8180 ")
+        }
+
+        function completeAndRedirect() {
+            var r = confirm("Press a button! ");
+            if (r == true) {
+                document.getElementById("login ").action = "localhost:8180 ";
+                document.getElementById("login ").submit();
+            }
+        }
+    </script>
+</body>
+
+</html>

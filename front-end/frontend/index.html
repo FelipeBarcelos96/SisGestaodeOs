@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single Page App</title>
+    <link rel="stylesheet" href="/static/css/index.css">
+    <script type="module" src="/static/js/index.js">
+        function redirect() { location.replace("http://localhost:8180") }
+    </script>
+
+</head>
+
+<body>
+
+    <nav class="nav">
+        <img src="static\images\logo.jpg" alt="Logo">
+        <a href="/" class="nav__link" data-link>Requisitos</a>
+        <a href="/users" class="nav__link" data-link>Usuários</a>
+        <a href="/settings" class="nav__link" data-link>Ordens de Serviço</a>
+        <a href="/equips" class="nav__link" data-link>Equipes</a>
+    </nav>
+
+    <div id="app"></div>
+
+    <div hidden id="users">
+        <h1>Usuários</h1>
+
+        <table id="userTable" class="table" style="width:100%">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Administrador</th>
+                <th>Gestor</th>
+                <th>Desenvolvedor</th>
+                <th>Analista</th>
+            </tr>
+
+        </table>
+        <br>
+        <button id="novoUsuarioButton" onclick="location.href = 'http://localhost:8180/users/cad';">Novo Usuario</button>
+
+    </div>
+
+    <div hidden id="cadForm">
+
+        <form enctype='application/json' method="post" name="cad" id="cad">
+
+            <div class="container">
+                <label for="name"><b>Nome</b></label>
+                <input type="text" placeholder="Entre com um Nome" name="name" id="name" required>
+
+                <label for="pass"><b>Senha</b></label>
+                <input type="password" placeholder="Entre com uma Senha" name="pass" id="pass" required>
+
+                <a>Equipe: </a>
+
+                <div id=equipSelect></div>
+
+                <br>
+                <label>
+               <input type="checkbox" name="ehAdm" id="ehAdm"> Administrador
+               </label>
+                <br>
+                <label>
+               <input type="checkbox" name="ehGestor" id="ehGestor"> Gestor
+               </label>
+                <br>
+                <label>
+               <input type="checkbox" name="ehDev" id="ehDev"> Desenvolvedor
+               </label>
+                <br>
+                <label>
+               <input type="checkbox" name="ehAnal" id="ehAnal"> Analista
+               </label>
+                <br>
+
+            </div>
+
+            <div class="container">
+                <button type="submit">Cadastrar</button>
+                <button type="button" class="cancelbtn">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+
+</body>
+
+</html>
