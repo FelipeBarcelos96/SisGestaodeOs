@@ -1,0 +1,8 @@
+{
+    "login": "test",
+    "password": "test",
+    "ehAdm": true,
+    "ehGestor": true,
+    "ehDev": false,
+    "ehAnal": false
+}
