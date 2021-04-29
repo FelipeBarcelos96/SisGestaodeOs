@@ -2,6 +2,7 @@ package br.com.ufes.sisgestaoOS.erros;
 
 import lombok.Getter;
 
+@SuppressWarnings("serial")
 @Getter
 public class ApplicationException extends RuntimeException {
 

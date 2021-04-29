@@ -4,11 +4,8 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import br.com.ufes.sisgestaoOS.model.Equipe;
 import br.com.ufes.sisgestaoOS.model.Ordem;
-import br.com.ufes.sisgestaoOS.service.novo.NovaEquipe;
 import br.com.ufes.sisgestaoOS.service.novo.NovaOrdem;
-import br.com.ufes.sisgestaoOS.dao.EquipeDao;
 import br.com.ufes.sisgestaoOS.dao.OrdemDao;
 
 public class OrdemRepositoryPersistence implements OrdemRepository {

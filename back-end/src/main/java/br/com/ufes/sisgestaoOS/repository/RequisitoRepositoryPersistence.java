@@ -5,11 +5,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import br.com.ufes.sisgestaoOS.model.Requisito;
-import br.com.ufes.sisgestaoOS.model.Status;
 import br.com.ufes.sisgestaoOS.service.novo.NovoRequisito;
-import br.com.ufes.sisgestaoOS.service.novo.NovoStatus;
 import br.com.ufes.sisgestaoOS.dao.RequisitoDao;
-import br.com.ufes.sisgestaoOS.dao.StatusDao;
 
 public class RequisitoRepositoryPersistence implements RequisitoRepository {
 

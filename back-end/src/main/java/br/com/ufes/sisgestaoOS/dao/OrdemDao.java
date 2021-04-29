@@ -123,6 +123,7 @@ private Connection conn = OracleConnector.getInstance().connect();
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, ord.getCodOs());
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Ordem de Serviço Não Encontrada!");
         else{
@@ -151,6 +152,7 @@ private Connection conn = OracleConnector.getInstance().connect();
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Ordem de Serviço Não Encontrada!");
         else{

@@ -122,6 +122,7 @@ public class UsuarioDao implements IDAO<Usuario>{
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, usuario.getId());
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Usuário¡rio Não Encontrado!");
         else{
@@ -146,6 +147,7 @@ public class UsuarioDao implements IDAO<Usuario>{
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Usuário¡rio Não Encontrado!");
         else{

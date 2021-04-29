@@ -103,6 +103,7 @@ public class RequisitoDao implements IDAO<Requisito> {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, req.getCodReq());
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Requisito Não Encontrado!");
         else{
@@ -123,6 +124,7 @@ public class RequisitoDao implements IDAO<Requisito> {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Requisito Não Encontrado!");
         else{

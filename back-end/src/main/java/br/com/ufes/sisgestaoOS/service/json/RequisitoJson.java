@@ -3,7 +3,6 @@ package br.com.ufes.sisgestaoOS.service.json;
 import java.sql.Timestamp;
 
 import br.com.ufes.sisgestaoOS.model.Requisito;
-import br.com.ufes.sisgestaoOS.model.Usuario;
 import lombok.Builder;
 import lombok.Value;
 
