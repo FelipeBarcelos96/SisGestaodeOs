@@ -96,6 +96,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, prioridade.getId());
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Prioridade Não Encontrada!");
         else{
@@ -113,6 +114,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Prioridade Não Encontrada!");
         else{

@@ -96,6 +96,7 @@ public class StatusDao implements IDAO<Status> {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, status.getCodStatus());
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Status Não Encontrado!");
         else{
@@ -113,6 +114,7 @@ public class StatusDao implements IDAO<Status> {
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, codStatus);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Status Não Encontrado!");
         else{

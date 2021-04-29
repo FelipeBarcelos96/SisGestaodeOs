@@ -97,6 +97,7 @@ public class EquipeDao implements IDAO<Equipe>{
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, equipe.getCodEquipe());
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Equipe Não Encontrada!");
         else{
@@ -116,6 +117,7 @@ public class EquipeDao implements IDAO<Equipe>{
         PreparedStatement stmt = conn.prepareStatement(sql);
         stmt.setInt(1, id);
         ResultSet rs = stmt.executeQuery();
+        rs.next();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Equipe Não Encontrada!");
         else{

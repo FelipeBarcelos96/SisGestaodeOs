@@ -31,13 +31,15 @@ public class EquipeRegistrationHandler extends Handler {
     protected void execute(HttpExchange exchange) throws IOException {
         byte[] response;
         if ("POST".equals(exchange.getRequestMethod())) {
-            ResponseEntity e = doPost(exchange.getRequestBody());
+            @SuppressWarnings("rawtypes")
+			ResponseEntity e = doPost(exchange.getRequestBody());
             exchange.getResponseHeaders().putAll(e.getHeaders());
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
         } else if("OPTIONS".equals(exchange.getRequestMethod())) {
         	response = null;
-        	ResponseEntity e = doOption(exchange.getRequestBody());         	
+        	@SuppressWarnings("rawtypes")
+			ResponseEntity e = doOption(exchange.getRequestBody());         	
         	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
         	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_CREDENTIALS, Constants.FALSE);
         	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_REQUEST_HEADERS, Constants.ASTERISC);
@@ -47,7 +49,8 @@ public class EquipeRegistrationHandler extends Handler {
         	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
         	response = super.writeResponse(e.getBody());
         }else if("PUT".equals(exchange.getRequestMethod())) {
-        	ResponseEntity e = doPut(exchange.getRequestBody());
+        	@SuppressWarnings("rawtypes")
+			ResponseEntity e = doPut(exchange.getRequestBody());
         	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
         	response = super.writeResponse(e.getBody());
         }
@@ -93,8 +96,10 @@ public class EquipeRegistrationHandler extends Handler {
         		 getHeaders(Constants.ACESS_CONTROL_ALLOW_HEADERS, Constants.HEADERS), StatusCode.OK);
     }
     
-    private ResponseEntity<EquipeRegistrationResponse> doOption(InputStream is) {
-    		ResponseEntity re = new ResponseEntity<>(null,
+    @SuppressWarnings("unchecked")
+	private ResponseEntity<EquipeRegistrationResponse> doOption(InputStream is) {
+    		@SuppressWarnings("rawtypes")
+			ResponseEntity re = new ResponseEntity<>(null,
                     getHeaders(Constants.CONTENT_TYPE, Constants.APPLICATION_JSON), StatusCode.OK);
     		re.getHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
     		re.getHeaders().add(Constants.ACESS_CONTROL_ALLOW_CREDENTIALS, Constants.FALSE);
