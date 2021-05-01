@@ -18,6 +18,7 @@ import br.com.ufes.sisgestaoOS.api.StatusCode;
 import br.com.ufes.sisgestaoOS.api.handlers.Handler;
 import br.com.ufes.sisgestaoOS.dao.EquipeDao;
 import br.com.ufes.sisgestaoOS.erros.GlobalExceptionHandler;
+import br.com.ufes.sisgestaoOS.main.Application;
 import br.com.ufes.sisgestaoOS.model.Equipe;
 
 public class EquipeHandler extends Handler {
@@ -57,7 +58,7 @@ public class EquipeHandler extends Handler {
 			output.write(resp.getBytes());
 			output.flush();
 		} else if("DELETE".equals(exchange.getRequestMethod())) {
-			
+			String resp = "";
 			Map<String, List<String>> params = splitQuery(exchange.getRequestURI().getRawQuery());
 			String noParamText = "-1";
 			String id = params.getOrDefault("id", List.of(noParamText)).stream().findFirst().orElse(noParamText);
@@ -66,7 +67,11 @@ public class EquipeHandler extends Handler {
 					EquipeDao.getInstance().delete(Integer.parseInt(id));					
 				}
 			}catch(Exception e) {
-				exchange.sendResponseHeaders(StatusCode.BAD_REQUEST.getCode(), -1);
+				resp = e.getMessage();
+				exchange.sendResponseHeaders(StatusCode.BAD_REQUEST.getCode(), resp.getBytes().length);
+				OutputStream output = exchange.getResponseBody();
+				output.write(resp.getBytes());
+				output.flush();
 				System.out.println("Error! Alert: ");
 				e.printStackTrace();
 			}

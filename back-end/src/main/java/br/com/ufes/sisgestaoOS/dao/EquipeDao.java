@@ -39,7 +39,7 @@ public class EquipeDao implements IDAO<Equipe>{
         		, rs.getString("SIGLA")
         		); 
         equipe.setCodEquipe(id);
-     
+        stmt.close();
         return equipe;
 	}
 
@@ -58,7 +58,7 @@ public class EquipeDao implements IDAO<Equipe>{
         		, rs.getString("SIGLA")
         		); 
         equipe.setCodEquipe(rs.getInt("CODEQUIPE"));
-      
+        stmt.close();
         return equipe;
 	}
 
@@ -86,6 +86,7 @@ public class EquipeDao implements IDAO<Equipe>{
         equipe.setCodEquipe(rs.getInt("CODEQUIPE"));
         //PermissoesDao.getInstance().save(usuario);
         }
+        stmt.close();
 		
 	}
 	
@@ -108,7 +109,7 @@ public class EquipeDao implements IDAO<Equipe>{
           stmt.executeUpdate();
          
         }
-		
+        stmt.close();
 	}
 
 	@Override
@@ -127,6 +128,7 @@ public class EquipeDao implements IDAO<Equipe>{
             stmt.execute();
           // PermissoesDao.getInstance().delete(usuario);
         }		
+        stmt.close();
 	}
 
 	@Override
@@ -142,7 +144,7 @@ public class EquipeDao implements IDAO<Equipe>{
 	    	   equipes.add(equipe);
 	           
 	       }
-	       
+	       stmt.close();
 	       return equipes;
 	}	
 

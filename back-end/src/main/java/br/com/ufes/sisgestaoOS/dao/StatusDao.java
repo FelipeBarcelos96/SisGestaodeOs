@@ -41,7 +41,7 @@ public class StatusDao implements IDAO<Status> {
         		, rs.getString("DESCRSTATUS")
         		); 
         status.setCodStatus(codStatus);
-     
+        stmt.close();
         return status;
 	}
 
@@ -60,7 +60,7 @@ public class StatusDao implements IDAO<Status> {
         		, rs.getString("DESCRSTATUS")
         		); 
         status.setCodStatus(rs.getInt("CODSTATUS"));
-      
+        stmt.close();
         return status;
 	}
 
@@ -87,6 +87,7 @@ public class StatusDao implements IDAO<Status> {
         rs.next();
         status.setCodStatus(rs.getInt("CODSTATUS"));
         }
+        stmt.close();
 	}
 
 	@Override
@@ -106,6 +107,7 @@ public class StatusDao implements IDAO<Status> {
           stmt.setInt(2, status.getCodStatus());
           stmt.executeUpdate();
         }
+        stmt.close();
 	}
 
 	@Override
@@ -123,6 +125,7 @@ public class StatusDao implements IDAO<Status> {
             stmt.setInt(1, codStatus);
             stmt.execute();
         }
+        stmt.close();
 	}
 
 	@Override
@@ -138,7 +141,7 @@ public class StatusDao implements IDAO<Status> {
 	    	   statuss.add(status);
 	           
 	       }
-	       
+	       stmt.close();
 	       return statuss;
 	}
 

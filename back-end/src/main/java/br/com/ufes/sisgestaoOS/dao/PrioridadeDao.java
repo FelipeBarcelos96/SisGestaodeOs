@@ -41,7 +41,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
         		, rs.getString("NOME")
         		); 
         prioridade.setId(id);
-     
+        stmt.close();
         return prioridade;
 	}
 
@@ -60,7 +60,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
         		, rs.getString("NOME")
         		); 
         prioridade.setId(rs.getInt("ID"));
-      
+        stmt.close();
         return prioridade;
 	}
 
@@ -87,6 +87,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
         rs.next();
         prioridade.setId(rs.getInt("ID"));
         }
+        stmt.close();
 	}
 
 	@Override
@@ -106,6 +107,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
           stmt.setInt(2, prioridade.getId());
           stmt.executeUpdate();
         }
+        stmt.close();
 	}
 
 	@Override
@@ -123,6 +125,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
             stmt.setInt(1, id);
             stmt.execute();
         }
+        stmt.close();
 	}
 
 	@Override
@@ -138,7 +141,7 @@ public class PrioridadeDao implements IDAO<Prioridade> {
 	    	   prioridades.add(prioridade);
 	           
 	       }
-	       
+	       stmt.close();
 	       return prioridades;
 	}
 

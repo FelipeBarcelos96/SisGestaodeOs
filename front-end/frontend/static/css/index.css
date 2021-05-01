@@ -82,9 +82,34 @@ button:hover {
 /* Extra style for the cancel button (red) */
 
 .cancelbtn {
-    width: auto;
     padding: 14px 20px;
+    width: 20%;
     background-color: #f44336;
+}
+
+.atualizarButton {
+    background-color: blue;
+    color: white;
+    padding: 14px 20px;
+    width: 20%;
+}
+
+.container {
+    position: relative;
+    align-self: center;
+    left: 50px;
+}
+
+.table-peq {
+    width: 25%;
+}
+
+.table-med {
+    width: 50%;
+}
+
+.table-grand {
+    width: 80%;
 }
 
 img {

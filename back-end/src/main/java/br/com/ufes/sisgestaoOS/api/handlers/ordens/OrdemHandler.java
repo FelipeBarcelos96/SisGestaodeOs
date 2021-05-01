@@ -57,7 +57,7 @@ public class OrdemHandler extends Handler {
 			output.write(resp.getBytes());
 			output.flush();
 		} else if("DELETE".equals(exchange.getRequestMethod())) {
-			
+			String resp = "";
 			Map<String, List<String>> params = splitQuery(exchange.getRequestURI().getRawQuery());
 			String noParamText = "-1";
 			String id = params.getOrDefault("id", List.of(noParamText)).stream().findFirst().orElse(noParamText);
@@ -66,7 +66,11 @@ public class OrdemHandler extends Handler {
 					OrdemDao.getInstance().delete(Integer.parseInt(id));					
 				}
 			}catch(Exception e) {
-				exchange.sendResponseHeaders(StatusCode.BAD_REQUEST.getCode(), -1);
+				resp = e.getMessage();
+				exchange.sendResponseHeaders(StatusCode.BAD_REQUEST.getCode(), resp.getBytes().length);
+				OutputStream output = exchange.getResponseBody();
+				output.write(resp.getBytes());
+				output.flush();
 				System.out.println("Error! Alert: ");
 				e.printStackTrace();
 			}
