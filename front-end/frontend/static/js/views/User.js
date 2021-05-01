@@ -30,6 +30,12 @@ export default class extends AbstractView {
         } else {
             equipe = `<p>Equipe: Sem equipe</p>`;
         }
+
+        var ehAdmin = this.ehAdm ? "checked" : "";
+        var ehGestor = this.ehGestor ? "checked" : "";
+        var ehDev = this.ehDev ? "checked" : "";
+        var ehAnal = this.ehAnal ? "checked" : "";
+
         return `            
             <h1>${this.nome}</h1>
             <p>Você está vendo o Usuário de Id ${this.userId}.</p>
@@ -39,21 +45,23 @@ export default class extends AbstractView {
             ${equipe}      
             </div>
             <div>
-            <input type="checkbox" id="admin" name="admin" ${this.ehAdm}>
+            <input type="checkbox" id="admin" name="admin" ${ehAdmin}>
             <label for="admin">Administrador</label>
             </div>
             <div>
-            <input type="checkbox" id="gestor" name="gestor" ${this.ehGestor}>
+            <input type="checkbox" id="gestor" name="gestor" ${ehGestor}>
             <label for="gestor">Gestor</label>
             </div>
             <div>
-            <input type="checkbox" id="dev" name="dev" ${this.ehDev}>
+            <input type="checkbox" id="dev" name="dev" ${ehDev}>
             <label for="dev">Desenvolvedor</label>
             </div>
             <div>
-            <input type="checkbox" id="anal" name="anal" ${this.ehAnal}>
+            <input type="checkbox" id="anal" name="anal" ${ehAnal}>
             <label for="anal">Analista</label>
             </div>
+
+            <button type="button" class="cancelbtn">Excluir</button>
         `;
     }
 
@@ -62,4 +70,9 @@ export default class extends AbstractView {
         var user = new HttpClient().getSinc(url);
         return JSON.parse(user);
     }
+
+    toString() {
+        return JSON.stringify(this.getUser());
+    }
+
 }

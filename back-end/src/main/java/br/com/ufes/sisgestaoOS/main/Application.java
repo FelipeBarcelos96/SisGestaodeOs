@@ -18,6 +18,7 @@ import java.util.Map;
 import br.com.ufes.sisgestaoOS.api.Constants;
 import br.com.ufes.sisgestaoOS.api.handlers.equipes.EquipeHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.equipes.EquipeRegistrationHandler;
+import br.com.ufes.sisgestaoOS.api.handlers.login.LoginHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.ordens.OrdemHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.ordens.OrdemRegistrationHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.prioridades.PrioridadeHandler;
@@ -30,11 +31,11 @@ import br.com.ufes.sisgestaoOS.api.handlers.usuario.UsuarioHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.usuario.UsuarioRegistrationHandler;
 import com.sun.net.httpserver.HttpServer;
 
-class Application {
-
+public class Application {
+	static HttpServer server;
 	public static void main(String[] args) throws IOException {
 		
-		HttpServer server = HttpServer.create(new InetSocketAddress(Constants.SERVER_PORT), 0);		
+		server = HttpServer.create(new InetSocketAddress(Constants.SERVER_PORT), 0);		
 		
 		UsuarioHandler usuarioHandler = new UsuarioHandler(getObjectMapper(),
 				getErrorHandler());
@@ -83,6 +84,10 @@ class Application {
 		OrdemRegistrationHandler ordemRegistrationHandler = new OrdemRegistrationHandler(getOrdemService(), getObjectMapper(),
 				getErrorHandler());
 		server.createContext("/api/ordem/register", ordemRegistrationHandler::handle);
+		
+		LoginHandler loginHandler = new LoginHandler(getObjectMapper(),
+				getErrorHandler());
+		server.createContext("/api/login", loginHandler::handle);
 
 		server.createContext("/api/hello", (exchange -> {
 
@@ -107,5 +112,9 @@ class Application {
 		System.out.println("Servidor iniciado com sucesso");
 
 	
+	}
+	
+	public static HttpServer getServer() {
+		return server;
 	}
 }

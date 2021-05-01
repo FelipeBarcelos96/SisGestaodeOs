@@ -1,44 +1,27 @@
 import AbstractView from "./AbstractView.js";
 import HttpClient from "../HttpClient.js";
+import User from "./User.js";
+import Equipes from "./Equipes.js";
+
 
 export default class extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle("Usuarios");
+        this.users = this.getUsersJson();
+        this.table = this.loadTable();
     }
 
     async getHtml() {
-        var dados = this.getUsers();
 
         return `
-        <h1>Usuários</h1>        
-        <table id="table" class="table" style="width:100%">
-        <tr>
-<th>ID</th>
-<th>Nome</th>
-<th>Administrador</th>
-<th>Gestor</th>
-<th>Desenvolvedor</th>
-<th>Analista</th>
-</tr>
-${dados}
-</table>
-<br>
-<button id="novoUsuarioButton" onclick="location.href = 'http://localhost:8180/users/cad';">Novo Usuario</button>
-<button type="button" class="cancelbtn">Excluir</button>
+        
         `;
     }
 
-    getUsers() {
-        var users;
+    getUsersHtml() {
 
-        var url = "http://localhost:8080/api/users";
-        var client = new HttpClient();
-
-        users = client.getSinc(url);
-        var json = JSON.parse(users);
-        console.log(JSON.stringify(json));
-        console.log(json.length);
+        var json = this.getUsersJson();
 
         var dados = '';
 
@@ -61,5 +44,110 @@ ${dados}
         return dados;
     }
 
+    getUsersJson() {
+        var users;
 
+        var url = "http://localhost:8080/api/users";
+        var client = new HttpClient();
+
+        users = client.getSinc(url);
+        var json = JSON.parse(users);
+
+        return json;
+    }
+
+    getTable() {
+        return this.table;
+    }
+
+    async redirectToEquip(sigla) {
+        var equipes = new Equipes().getEquips();
+        var codEquipe;
+        for (var i = 0; i < equipes.length; i++) {
+            if (equipes[i].sigla === sigla) {
+                id = equipes[i].codEquipe;
+            }
+        }
+        if (codEquipe >= 0)
+            return "http://localhost:8180/equips/" + codEquipe;
+        else
+            return "http://localhost:8180/users/"
+
+    }
+
+    async loadTable() {
+        var json = this.getUsersJson();
+        //console.log(JSON.stringify(json));
+        var tabledata = [{}];
+        for (var i = 0; i < json.length; i++) {
+            tabledata[i] = {
+                id: json[i].id,
+                nome: json[i].nome,
+                pass: json[i].pass,
+                equipe: json[i].equipe.sigla,
+                adiministrador: json[i].ehAdm,
+                gestor: json[i].ehGestor,
+                desenvolvedor: json[i].ehDev,
+                analista: json[i].ehAnal,
+                excluir: "Excluir"
+            }
+
+        }
+
+        var equips = await new Equipes().getEquips();
+        // console.log(JSON.stringify(equips));
+        var equipsList = [];
+        for (var i = 0; i < equips.length; i++) {
+            equipsList[i] = equips[i].sigla;
+        }
+
+        //   console.log(equipsList);
+        var table = new Tabulator("#usersTable", {
+            data: tabledata,
+            //  selectable: true,
+            layout: "fitDataFill",
+            columns: [{
+                    title: "ID",
+                    field: "id",
+                    sorter: "number",
+                    width: 50,
+                    headerFilter: "number",
+                    editor: false,
+                    cellClick: function(e, cell) {
+                        window.location.replace("http://localhost:8180/users/" + cell.getValue());
+                    },
+                },
+                { title: "Nome", field: "nome", sorter: "string", headerFilter: "input", hozAlign: "center", width: 200, editor: "input" },
+                {
+                    title: "Equipe",
+                    field: "equipe",
+                    sorter: "string",
+                    width: 100,
+                    headerFilter: "input",
+                    editor: "select",
+                    editorParams: {
+                        values: equipsList
+                    }
+                },
+                { title: "Adiministrador", field: "adiministrador", sorter: "boolean", formatter: "tickCross", editor: "tickCross", hozAlign: "center", width: 150 },
+                { title: "Gestor", field: "gestor", sorter: "boolean", formatter: "tickCross", hozAlign: "center", editor: "tickCross", width: 100 },
+                { title: "Desenvolvedor", field: "desenvolvedor", sorter: "boolean", formatter: "tickCross", editor: "tickCross", hozAlign: "center", width: 150 },
+                { title: "Analista", field: "analista", sorter: "boolean", formatter: "tickCross", editor: "tickCross", hozAlign: "center", width: 100 },
+                {
+                    title: "Excluir",
+                    field: "excluir",
+                    cellClick: function(e, cell) {
+                        var url = "http://localhost:8080/api/users?id=" + cell.getRow().getIndex();
+                        var client = new HttpClient();
+                        client.delSinc(url);
+                        window.location.replace("http://localhost:8180/users");
+                    }
+                }
+            ],
+            initialSort: [{ column: "id", dir: "asc" }]
+
+        });
+
+        return table;
+    }
 }

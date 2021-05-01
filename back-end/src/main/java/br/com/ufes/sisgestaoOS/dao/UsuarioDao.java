@@ -55,7 +55,7 @@ public class UsuarioDao implements IDAO<Usuario>{
         		, (rs.getInt("CODEQUIPE") < 0 ? null : EquipeDao.getInstance().get(rs.getInt("CODEQUIPE")))
         		); 
         usu.setId(id);
-      //  usu.setPermissoes(PermissoesDao.getInstance().get(codUsu));
+        stmt.close();
         return usu;
     }
     
@@ -80,7 +80,8 @@ public class UsuarioDao implements IDAO<Usuario>{
         		, (rs.getInt("CODEQUIPE") < 0  ? null : EquipeDao.getInstance().get(rs.getInt("CODEQUIPE")))
         		); 
         usu.setId(rs.getInt("CODUSU"));
-      //  System.out.println(usu.getIsAdmin().toString()+" , "+ usu.getPermissoes().getVisualizar().toString()+" , "+usu.getPermissoes().getExcluir().toString()+","+usu.getPermissoes().getCompartilhar().toString());
+        stmt.close();
+      
         return usu;
     }
 
@@ -113,6 +114,7 @@ public class UsuarioDao implements IDAO<Usuario>{
         usuario.setId(rs.getInt("CODUSU"));
         //PermissoesDao.getInstance().save(usuario);
         }
+        stmt.close();
     }
 
     
@@ -139,6 +141,7 @@ public class UsuarioDao implements IDAO<Usuario>{
           stmt.executeUpdate();
          
         }
+        stmt.close();
     }
 
     
@@ -157,6 +160,7 @@ public class UsuarioDao implements IDAO<Usuario>{
             stmt.execute();
           // PermissoesDao.getInstance().delete(usuario);
         }
+        stmt.close();
     }
 
     
@@ -183,7 +187,7 @@ public class UsuarioDao implements IDAO<Usuario>{
            usuarios.add(usu);
            
        }
-       
+       stmt.close();
        return usuarios;
     }   
     

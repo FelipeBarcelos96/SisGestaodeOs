@@ -50,6 +50,7 @@ private Connection conn = OracleConnector.getInstance().connect();
         		, rs.getTimestamp("ENTREGA")
         		, rs.getBigDecimal("VLRESTIMADO")
         		);
+        stmt.close();
         return ord;
 	}
 
@@ -79,6 +80,7 @@ private Connection conn = OracleConnector.getInstance().connect();
         		, rs.getTimestamp("ENTREGA")
         		, rs.getBigDecimal("VLRESTIMADO")
         		);
+        stmt.close();
         return ord;
 	}
 
@@ -115,6 +117,7 @@ private Connection conn = OracleConnector.getInstance().connect();
         rs.next();
         ord.setCodOs(rs.getInt("CODOS"));
         }		
+        stmt.close();
 	}
 
 	@Override
@@ -144,6 +147,7 @@ private Connection conn = OracleConnector.getInstance().connect();
           stmt.setInt(12, ord.getCodOs());
           stmt.executeUpdate();
         }
+        stmt.close();
 	}
 
 	@Override
@@ -161,6 +165,7 @@ private Connection conn = OracleConnector.getInstance().connect();
             stmt.setInt(1, id);
             stmt.execute();        
         }	
+        stmt.close();
 	}
 
 	@Override
@@ -186,7 +191,7 @@ private Connection conn = OracleConnector.getInstance().connect();
 	    	   ordens.add(ord);
 	           
 	       }
-	       
+	       stmt.close();
 	       return ordens;
 	
 	}

@@ -5,28 +5,15 @@ export default class extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle("Equipes");
+        this.equips = this.getEquips();
+        this.table = this.loadTable();
     }
 
     async getHtml() {
-        var json = this.getEquips();
 
-        var dados = '';
-
-        for (var i = 0; i < json.length; i++) {
-            var id = json[i].codEquipe;
-            var sigla = json[i].sigla;
-            var url = "http://localhost:8180/equips/" + json[i].codEquipe;
-            dados = dados + `
-            <a href="${url}">${id}</a>    <a>${sigla}</a> 
-            <br>
-            `
-        }
 
         return `
-        <h1>Equipes</h1> 
-        <b>ID              Sigla</b>   
-        <br>            
-          ${dados}
+        
         `;
     }
 
@@ -48,6 +35,18 @@ export default class extends AbstractView {
         return dados;
     }
 
+    async getEquips() {
+        var equips;
+
+        var url = "http://localhost:8080/api/equips";
+        var client = new HttpClient();
+
+        equips = client.getSinc(url);
+        var json = JSON.parse(equips);
+
+        return json;
+    }
+
     getEquips() {
         var equips;
 
@@ -58,6 +57,59 @@ export default class extends AbstractView {
         var json = JSON.parse(equips);
 
         return json;
+    }
+
+    async loadTable() {
+        var json = this.getEquips();
+        //console.log(JSON.stringify(json));
+        var tabledata = [];
+        for (var i = 0; i < json.length; i++) {
+            if (json[i].codEquipe > 0) {
+                tabledata[i] = {
+                    id: json[i].codEquipe,
+                    sigla: json[i].sigla,
+                    excluir: "Excluir"
+                }
+            }
+        }
+
+        var table = new Tabulator("#equipsTable", {
+            data: tabledata,
+            //  selectable: true,
+            layout: "fitDataFill",
+            columns: [{
+                    title: "ID",
+                    field: "id",
+                    sorter: "number",
+                    width: 50,
+                    headerFilter: "number",
+                    editor: false,
+                    cellClick: function(e, cell) {
+                        window.location.replace("http://localhost:8180/equips/" + cell.getValue());
+                    },
+                },
+                { title: "Equipe", field: "sigla", sorter: "string", headerFilter: "input", hozAlign: "center", width: 200, editor: "input" },
+
+                {
+                    title: "Excluir",
+                    field: "excluir",
+                    cellClick: function(e, cell) {
+                        var url = "http://localhost:8080/api/equips?id=" + cell.getRow().getIndex();
+                        var client = new HttpClient();
+                        client.delSinc(url);
+                        window.location.replace("http://localhost:8180/equips");
+                    }
+                }
+            ],
+            initialSort: [{ column: "id", dir: "asc" }]
+
+        });
+
+        return table;
+    }
+
+    getTable() {
+        return this.table;
     }
 
 }

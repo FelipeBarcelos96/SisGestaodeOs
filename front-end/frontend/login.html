@@ -91,7 +91,7 @@
             height: auto
         }
     </style>
-
+    <script type="text/javascript" src="./static/js/HttpClientLogin.js"></script>
 </head>
 
 <body>
@@ -100,34 +100,38 @@
 
         <div class="container">
             <label for="uname"><b>Login</b></label>
-            <input type="text" placeholder="Entre com o Nome" name="uname" required>
+            <input type="text" id="uname" placeholder="Entre com o Nome" name="uname" required>
 
             <label for="psw"><b>Senha</b></label>
-            <input type="password" placeholder="Entre com a Senha" name="psw" required>
+            <input type="password" id="pass" placeholder="Entre com a Senha" name="psw" required>
 
-            <button type="submit" onclick="javascript:redirect();">Login</button>
+            <button type="submit">Login</button>
             <label>
         <input type="checkbox" checked="checked" name="remember"> Lembrar-me
       </label>
         </div>
-
-        <div class="container">
-            <span class=" psw ">Ainda não é Cadastrado? <a href="# ">Crie uma Conta.</a></span>
-        </div>
     </form>
 
     <script>
-        function redirect() {
-            location.replace("http://localhost:8180 ")
-        }
-
-        function completeAndRedirect() {
-            var r = confirm("Press a button! ");
-            if (r == true) {
-                document.getElementById("login ").action = "localhost:8180 ";
-                document.getElementById("login ").submit();
+        var login = document.getElementById("login");
+        login.addEventListener("submit", (e) => {
+            e.preventDefault();
+            var json = {
+                login: document.getElementById("uname").value,
+                password: document.getElementById("pass").value
             }
-        }
+
+            var url = "http://localhost:8080/api/login"
+            var client = new HttpClientLogin();
+            /*
+                var response = client.postAssincJson(url, jsonStr, function(response) {
+                    console.log(response);
+                });
+            */
+            client.autenticate(url, json);
+            //console.log(response);
+
+        });
     </script>
 </body>
 

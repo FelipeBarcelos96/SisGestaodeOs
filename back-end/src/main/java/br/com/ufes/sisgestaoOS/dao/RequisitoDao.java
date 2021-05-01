@@ -43,6 +43,7 @@ public class RequisitoDao implements IDAO<Requisito> {
         		, rs.getString("DESCRREQ")
         		, rs.getTimestamp("PRAZO")
         		);
+        stmt.close();
         return req;
 	}
 
@@ -65,6 +66,7 @@ public class RequisitoDao implements IDAO<Requisito> {
         		, rs.getString("DESCRREQ")
         		, rs.getTimestamp("PRAZO")
         		);
+        stmt.close();
         return req;
 	}
 
@@ -94,6 +96,7 @@ public class RequisitoDao implements IDAO<Requisito> {
         rs.next();
         req.setCodReq(rs.getInt("CODREQ"));
         }
+        stmt.close();
 		
 	}
 
@@ -116,6 +119,7 @@ public class RequisitoDao implements IDAO<Requisito> {
           stmt.setInt(5, req.getCodReq());
           stmt.executeUpdate();
         }
+        stmt.close();
 	}
 
 	@Override
@@ -132,7 +136,8 @@ public class RequisitoDao implements IDAO<Requisito> {
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
             stmt.execute();        
-        }		
+        }	
+        stmt.close();
 	}
 
 	@Override
@@ -151,7 +156,7 @@ public class RequisitoDao implements IDAO<Requisito> {
 	    	   requisitos.add(req);
 	           
 	       }
-	       
+	       stmt.close();
 	       return requisitos;
 	}
 
