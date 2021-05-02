@@ -1,7 +1,10 @@
 import AbstractView from "./AbstractView.js";
 import HttpClient from "../HttpClient.js";
 import Equipe from "./Equipe.js";
+import Constants from "../Constants.js";
 
+const ipUrl = new Constants().ipUrl;
+const urlRaiz = new Constants().ipRaiz;
 export default class extends AbstractView {
 
     constructor(params) {
@@ -25,7 +28,7 @@ export default class extends AbstractView {
     async getHtml() {
         var equipe;
         if (this.equipe !== undefined) {
-            var url = "http://localhost:8180/equips/" + this.equipe.getId();
+            var url = urlRaiz + "/equips/" + this.equipe.getId();
             equipe = `<p>Equipe: <a href="${url}">${this.equipe.getSigla()}</a></p>`
         } else {
             equipe = `<p>Equipe: Sem equipe</p>`;
@@ -66,7 +69,7 @@ export default class extends AbstractView {
     }
 
     getUser() {
-        var url = "http://localhost:8080/api/users?id=" + this.userId;
+        var url = ipUrl + "/api/users?id=" + this.userId;
         var user = new HttpClient().getSinc(url);
         return JSON.parse(user);
     }

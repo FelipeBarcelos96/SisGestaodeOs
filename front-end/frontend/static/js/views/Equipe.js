@@ -2,7 +2,10 @@ import AbstractView from "./AbstractView.js";
 import HttpClient from "../HttpClient.js";
 import Equipes from "./Equipes.js";
 import Users from "./Users.js";
+import Constants from "../Constants.js";
 
+const ipUrl = new Constants().ipUrl;
+const urlRaiz = new Constants().ipRaiz;
 export default class extends AbstractView {
 
     constructor(params) {
@@ -25,7 +28,7 @@ export default class extends AbstractView {
     getEquip() {
         var equip;
 
-        var url = "http://localhost:8080/api/equips?id=" + this.equipId;
+        var url = ipUrl + "/api/equips?id=" + this.equipId;
         var client = new HttpClient();
 
         equip = client.getSinc(url);
@@ -80,7 +83,7 @@ export default class extends AbstractView {
                     headerFilter: "number",
                     editor: false,
                     cellClick: function(e, cell) {
-                        window.location.replace("http://localhost:8180/users/" + cell.getValue());
+                        window.location.replace(urlRaiz + "/users/" + cell.getValue());
                     },
                 },
                 { title: "Nome", field: "nome", sorter: "string", headerFilter: "input", hozAlign: "center", width: 200, editor: false }

@@ -13,8 +13,12 @@ import static br.com.ufes.sisgestaoOS.api.ApiUtils.splitQuery;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
+
 import br.com.ufes.sisgestaoOS.api.Constants;
 import br.com.ufes.sisgestaoOS.api.handlers.equipes.EquipeHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.equipes.EquipeRegistrationHandler;
@@ -34,7 +38,7 @@ import com.sun.net.httpserver.HttpServer;
 public class Application {
 	static HttpServer server;
 	public static void main(String[] args) throws IOException {
-		
+
 		server = HttpServer.create(new InetSocketAddress(Constants.SERVER_PORT), 0);		
 		
 		UsuarioHandler usuarioHandler = new UsuarioHandler(getObjectMapper(),

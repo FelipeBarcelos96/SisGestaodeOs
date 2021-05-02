@@ -10,7 +10,7 @@ import lombok.Value;
 @Builder
 class RequisitoRegistrationRequest {
 	UsuarioJson analista;
-	String Titulo;
-	String Descricao;
+	String titulo;
+	String descricao;
 	Timestamp prazo;
 }

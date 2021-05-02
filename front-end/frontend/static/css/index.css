@@ -116,3 +116,7 @@ img {
     width: var(--nav-width);
     height: auto
 }
+
+.text-box {
+    height: 30%;
+}

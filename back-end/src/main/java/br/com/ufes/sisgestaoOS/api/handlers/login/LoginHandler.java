@@ -36,6 +36,7 @@ public class LoginHandler extends Handler {
             @SuppressWarnings("rawtypes")
 			ResponseEntity e = doPost(exchange.getRequestBody());
             exchange.getResponseHeaders().putAll(e.getHeaders());
+            exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
         } else if("OPTIONS".equals(exchange.getRequestMethod())) {
@@ -53,6 +54,7 @@ public class LoginHandler extends Handler {
         	response = super.writeResponse(e.getBody());
         }
         else {
+        	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
             throw ApplicationExceptions.methodNotAllowed(
                 "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
         }
@@ -73,7 +75,7 @@ public class LoginHandler extends Handler {
 						&& user.getPass().equals(registerRequest.getPassword())
 						) {
 					resp = Boolean.TRUE;
-					url = "http://localhost:8180/login/"+ Integer.toString(user.getId());
+					url = Constants.URL_IP+":8180/login/"+ Integer.toString(user.getId());
 				}
 			}
 		} catch (SQLException e) {

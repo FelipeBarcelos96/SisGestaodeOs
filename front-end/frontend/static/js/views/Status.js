@@ -1,6 +1,9 @@
 import AbstractView from "./AbstractView.js";
 import HttpClient from "../HttpClient.js";
+import Constants from "../Constants.js";
 
+const ipUrl = new Constants().ipUrl;
+const urlRaiz = new Constants().ipRaiz;
 export default class extends AbstractView {
     constructor(params) {
         super(params);
@@ -10,8 +13,6 @@ export default class extends AbstractView {
     }
 
     async getHtml() {
-
-
         return `
         
         `;
@@ -20,7 +21,7 @@ export default class extends AbstractView {
     async getStatus() {
         var status;
 
-        var url = "http://localhost:8080/api/status";
+        var url = ipUrl + "/api/status";
         var client = new HttpClient();
 
         status = client.getSinc(url);
@@ -32,7 +33,7 @@ export default class extends AbstractView {
     getStatus() {
         var status;
 
-        var url = "http://localhost:8080/api/status";
+        var url = ipUrl + "/api/status";
         var client = new HttpClient();
 
         status = client.getSinc(url);
@@ -73,10 +74,10 @@ export default class extends AbstractView {
                     title: "Excluir",
                     field: "excluir",
                     cellClick: function(e, cell) {
-                        var url = "http://localhost:8080/api/status?id=" + cell.getRow().getIndex();
+                        var url = ipUrl + "/api/status?id=" + cell.getRow().getIndex();
                         var client = new HttpClient();
                         client.delSinc(url);
-                        window.location.replace("http://localhost:8180/configs");
+                        window.location.replace(urlRaiz + "/configs");
                     }
                 }
             ],

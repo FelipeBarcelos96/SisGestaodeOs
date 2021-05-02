@@ -9,7 +9,9 @@ import br.com.ufes.sisgestaoOS.api.StatusCode;
 import br.com.ufes.sisgestaoOS.api.handlers.Handler;
 import br.com.ufes.sisgestaoOS.erros.ApplicationExceptions;
 import br.com.ufes.sisgestaoOS.erros.GlobalExceptionHandler;
+import br.com.ufes.sisgestaoOS.model.Equipe;
 import br.com.ufes.sisgestaoOS.model.Requisito;
+import br.com.ufes.sisgestaoOS.model.Usuario;
 import br.com.ufes.sisgestaoOS.service.RequisitoService;
 import br.com.ufes.sisgestaoOS.service.json.EquipeJson;
 import br.com.ufes.sisgestaoOS.service.json.UsuarioJson;
@@ -35,6 +37,7 @@ public class RequisitoRegistrationHandler extends Handler {
             @SuppressWarnings("rawtypes")
 			ResponseEntity e = doPost(exchange.getRequestBody());
             exchange.getResponseHeaders().putAll(e.getHeaders());
+            exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
         } else if("OPTIONS".equals(exchange.getRequestMethod())) {
@@ -54,10 +57,12 @@ public class RequisitoRegistrationHandler extends Handler {
         	@SuppressWarnings("rawtypes")
 			ResponseEntity e = doPut(exchange.getRequestBody());
         	exchange.getResponseHeaders().putAll(e.getHeaders());
+        	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
         	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
         	response = super.writeResponse(e.getBody());
         }
         else {
+        	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
             throw ApplicationExceptions.methodNotAllowed(
                 "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
         }
@@ -74,11 +79,13 @@ public class RequisitoRegistrationHandler extends Handler {
         NovoRequisito requisito;
         
 			requisito = NovoRequisito.builder()
-			        .analista(registerRequest.getAnalista().getUsuario())
+			        .analista(registerRequest.getAnalista().getUsuario())			        		
 			        .titulo(registerRequest.getTitulo())
 			        .descricao(registerRequest.getDescricao())
 			        .prazo(registerRequest.getPrazo())
 			        .build();
+			
+			//System.out.println(requisito.toString());
 		
         int requisitoId = requisitoService.create(requisito);
 

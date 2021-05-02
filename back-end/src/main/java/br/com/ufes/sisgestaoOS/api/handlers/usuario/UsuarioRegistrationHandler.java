@@ -36,6 +36,7 @@ public class UsuarioRegistrationHandler extends Handler {
             @SuppressWarnings("rawtypes")
 			ResponseEntity e = doPost(exchange.getRequestBody());
             exchange.getResponseHeaders().putAll(e.getHeaders());
+            exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
         } else if("OPTIONS".equals(exchange.getRequestMethod())) {
@@ -55,10 +56,12 @@ public class UsuarioRegistrationHandler extends Handler {
         	@SuppressWarnings("rawtypes")
 			ResponseEntity e = doPut(exchange.getRequestBody());
         	exchange.getResponseHeaders().putAll(e.getHeaders());
+        	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
         	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
         	response = super.writeResponse(e.getBody());
         }
         else {
+        	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
             throw ApplicationExceptions.methodNotAllowed(
                 "Method " + exchange.getRequestMethod() + " is not allowed for " + exchange.getRequestURI()).get();
         }

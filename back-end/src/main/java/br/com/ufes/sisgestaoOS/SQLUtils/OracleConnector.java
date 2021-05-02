@@ -43,10 +43,7 @@ public class OracleConnector implements IConnector {
             } catch (SQLException e) {
             	System.out.println("SQL Error! Alert: ");
     			e.printStackTrace();
-            } catch (IOException e) {
-            	System.out.println("IO Error! Alert: ");
-    			e.printStackTrace();
-			}
+            }
         }
         return this.conn;
 	}
