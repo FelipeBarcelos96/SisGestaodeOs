@@ -35,11 +35,11 @@ export default class HttpClient {
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open("PUT", theUrl, false); // false for synchronous request
             xmlHttp.setRequestHeader("Content-Type", "application/json");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Credentials", "false");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Date,Transfer-encoding,Content-type");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-            xmlHttp.setRequestHeader("Access-Control-Expose-Headers", "Date, Transfer-encoding, Content-type");
+            // xmlHttp.setRequestHeader("Access-Control-Allow-Credentials", "false");
+            // xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Date,Transfer-encoding,Content-type");
+            // xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH");
+            // xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+            // xmlHttp.setRequestHeader("Access-Control-Expose-Headers", "Date, Transfer-encoding, Content-type");
             xmlHttp.send(jsonString);
 
         }
@@ -50,11 +50,11 @@ export default class HttpClient {
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.open("POST", theUrl, false); // false for synchronous request
             xmlHttp.setRequestHeader("Content-Type", "application/json");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Credentials", "false");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Date,Transfer-encoding,Content-type");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH");
-            xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-            xmlHttp.setRequestHeader("Access-Control-Expose-Headers", "Date, Transfer-encoding, Content-type");
+            //xmlHttp.setRequestHeader("Access-Control-Allow-Credentials", "false");
+            //xmlHttp.setRequestHeader("Access-Control-Allow-Headers", "Date,Transfer-encoding,Content-type");
+            //xmlHttp.setRequestHeader("Access-Control-Allow-Methods", "GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATCH");
+            //xmlHttp.setRequestHeader("Access-Control-Allow-Origin", "*");
+            //xmlHttp.setRequestHeader("Access-Control-Expose-Headers", "Date, Transfer-encoding, Content-type");
 
             xmlHttp.send(jsonString);
             return xmlHttp.responseText;

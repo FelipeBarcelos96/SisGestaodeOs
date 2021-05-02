@@ -1,5 +1,7 @@
 package br.com.ufes.sisgestaoOS.api;
 
+import br.com.ufes.sisgestaoOS.utils.ManipuladorDePropriedades;
+
 public class Constants {
 
     public static final String CONTENT_TYPE = "Content-Type";
@@ -15,4 +17,5 @@ public class Constants {
     public static final String ACESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
     public static final String ACESS_CONTROL_ALLOW_METHODS = "Access-Control-Allow-Methods";
     public static final int SERVER_PORT = 8080;
+    public static final String URL_IP = ManipuladorDePropriedades.getProp().getProperty("ip");
 }

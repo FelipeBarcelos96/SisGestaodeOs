@@ -10,16 +10,20 @@
     <script type="module" src="/static/js/index.js"></script>
     <link href="/static/tabulator-master/dist/css/tabulator.min.css" rel="stylesheet">
     <script type="text/javascript" src="/static/tabulator-master/dist/js/tabulator.min.js"></script>
-
+    <script type="text/javascript" src="/static/moment/moment-with-locales.js"></script>
+    <script type="text/javascript" src="/static/moment/moment.js"></script>
+    <script type="text/javascript" src="./static/js/ConstantsLogin.js"></script>
 </head>
 
 <body>
 
     <nav class="nav">
-        <img id=logo src="static/images/logo.jpg" alt="Logo">
-        <a href="/" class="nav__link" data-link>Requisitos</a>
+        <a href="/">
+            <img id=logo src="static/images/logo.jpg" alt="Logo">
+        </a>
+        <a href="/requisitos" class="nav__link" data-link>Requisitos</a>
+        <a href="/ordens" class="nav__link" data-link>Ordens de Serviço</a>
         <a href="/users" class="nav__link" data-link>Usuários</a>
-        <a href="/configs" class="nav__link" data-link>Ordens de Serviço</a>
         <a href="/equips" class="nav__link" data-link>Equipes</a>
         <a href="/configs" class="nav__link" data-link>Configurações</a>
     </nav>
@@ -31,7 +35,7 @@
             <h1>Usuários</h1>
             <div class="table-grand" id="usersTable">
             </div>
-            <button id="novoUsuarioButton" onclick="location.href = 'http://localhost:8180/users/cad';">Novo Usuario</button>
+            <button id="novoUsuarioButton" onclick="location.href = 'http://192.168.0.101:8180/users/cad';">Novo Usuario</button>
             <button class="atualizarButton" id="salvarUsuariosButton">Salvar Alterações</button>
         </div>
     </div>
@@ -65,6 +69,31 @@
             </div>
             <button class="atualizarButton" id="salvarUsuarioButton">Salvar Alterações</button>
             <button class="cancelbtn" id="excluirUsuarioButton">Excluir</button>
+        </div>
+
+    </div>
+
+    <div hidden id="requisito">
+        <div class="container">
+            <h1 id="requisitoTitle"></h1>
+            <p id="requisitoId">Você está vendo o Requisito de Id </p>
+            <label for="requisitoTitulo"><b>Titulo: </b></label><input type="text" placeholder="Titulo" id="requisitoTitulo" name="requisitoTitulo" required>
+
+            <br><br>
+            <label for="requisitoUser"><b>Analista Encarregado: </b></label>
+            <select name="requisitoUser" id="requisitoUser">
+            </select>
+            <br><br>
+            <label for="requisitoDescricao"><b>Descrição:</b></label>
+            <br>
+            <textarea class="text-box" cols="100" rows="4" placeholder="Descricao do Requisito" name="requisitoDescricao" id="requisitoDescricao"></textarea>
+            <br>
+            <label for="requisitoPrazo"><b>Prazo</b></label>
+            <input type="datetime-local" name="requisitoPrazo" id="requisitoPrazo">
+            <br><br>
+
+            <button class="atualizarButton" id="salvarRequisitoButton">Salvar Alterações</button>
+            <button class="cancelbtn" id="excluirRequisitoButton">Excluir</button>
         </div>
 
     </div>
@@ -110,7 +139,39 @@
 
             <div class="container">
                 <button type="submit">Cadastrar</button>
-                <button type="button" class="cancelbtn" onclick="location.href = 'http://localhost:8180/users';">Cancelar</button>
+                <button type="button" class="cancelbtn" onclick="location.href = 'http://192.168.0.101:8180/users';">Cancelar</button>
+            </div>
+        </form>
+    </div>
+
+    <div hidden id="requisitoCadForm">
+
+        <form enctype='application/json' class="cad-form" method="post" name="cad" id="requisitocad">
+            <br>
+            <h1>Cadastro de Requisitos</h1>
+
+            <div class="container">
+                <label for="requisitoTitulo"><b>Título</b></label>
+                <input type="text" placeholder="Entre com um Título" name="requisitoTitulo" id="requisitoCadTitulo" required>
+
+                <br><br>
+                <label for="cadRequisitoUser"><b>Analista:</b></label>
+                <select name="cadRequisitoUser" id="cadRequisitoUser">
+                </select>
+                <br><br>
+
+                <label for="requisitoCadDescricao"><b>Descrição:</b></label>
+                <br>
+                <textarea class="text-box" cols="100" rows="4" placeholder="Descricao do Requisito" name="requisitoCadDescricao" id="requisitoCadDescricao"></textarea>
+
+                <br>
+                <label for="requisitoCadPrazo"><b>Prazo</b></label>
+                <input type="datetime-local" name="requisitoCadPrazo" id="requisitoCadPrazo">
+                <br><br>
+
+                <button type="submit">Cadastrar</button>
+                <button type="button" class="cancelbtn" onclick="location.href = 'http://192.168.0.101:8180/requisitos';">Voltar</button>
+
             </div>
         </form>
     </div>
@@ -118,10 +179,20 @@
     <div hidden id="equips">
         <div class="container">
             <h1>Equipes</h1>
-            <div class="table-peq" id="equipsTable">
+            <div class="table-med" id="equipsTable">
             </div>
-            <button id="novaEquipeButton" onclick="location.href = 'http://localhost:8180/equips/cad';">Nova Equipe</button>
+            <button id="novaEquipeButton" onclick="location.href = 'http://192.168.0.101:8180/equips/cad';">Nova Equipe</button>
             <button class="atualizarButton" id="salvarEquipesButton">Salvar Alterações</button>
+        </div>
+    </div>
+
+    <div hidden id="requisitos">
+        <div class="container">
+            <h1>Requisitos</h1>
+            <div class="table-grand" id="requisitosTable">
+            </div>
+            <button id="novoRequisitoButton" onclick="location.href = 'http://192.168.0.101:8180/requisitos/cad';">Novo Requisito</button>
+            <button class="atualizarButton" id="salvarRequisitosButton">Salvar Alterações</button>
         </div>
     </div>
 
@@ -137,7 +208,7 @@
                 <input type="text" placeholder="Entre com um Nome" name="name" id="equipName" required>
                 <br>
                 <button type="submit">Cadastrar</button>
-                <button type="button" class="cancelbtn" onclick="location.href = 'http://localhost:8180/equips';">Cancelar</button>
+                <button type="button" class="cancelbtn" onclick="location.href = 'http://192.168.0.101:8180/equips';">Cancelar</button>
             </div>
         </form>
     </div>
@@ -166,12 +237,12 @@
         <p><b>Tipos de Status: </b></p>
         <div class="table-med" id="statusTable">
         </div>
-        <button id="novoStatusButton" onclick="location.href = 'http://localhost:8180/stats/cad';">Novo Status</button>
+        <button id="novoStatusButton" onclick="location.href = 'http://192.168.0.101:8180/stats/cad';">Novo Status</button>
         <br><br>
         <p><b>Tipos de Prioridades: </b></p>
         <div class="table-med" id="prioridadesTable">
         </div>
-        <button id="novaPrioridadeButton" onclick="location.href = 'http://localhost:8180/prio/cad';">Nova Prioridade</button>
+        <button id="novaPrioridadeButton" onclick="location.href = 'http://192.168.0.101:8180/prio/cad';">Nova Prioridade</button>
         <br><br>
         <button class="atualizarButton" id="salvarConfigButton">Salvar Alterações</button>
 
@@ -189,13 +260,12 @@
                 <input type="text" placeholder="Entre com um Status" name="statusname" id="statusName" required>
                 <br>
                 <button type="submit">Cadastrar</button>
-                <button type="button" class="cancelbtn" onclick="location.href = 'http://localhost:8180/configs';">Cancelar</button>
+                <button type="button" class="cancelbtn" onclick="location.href = 'http://192.168.0.101:8180/configs';">Cancelar</button>
             </div>
         </form>
     </div>
 
     <div hidden id="prioridadeCadForm">
-
         <form enctype='application/json' class="cad-form" method="post" name="cad" id="prioridadeCad">
             <br>
 
@@ -206,7 +276,7 @@
                 <input type="text" placeholder="Entre com uma Prioridade" name="prioridadename" id="prioridadeName" required>
                 <br>
                 <button type="submit">Cadastrar</button>
-                <button type="button" class="cancelbtn" onclick="location.href = 'http://localhost:8180/configs';">Cancelar</button>
+                <button type="button" class="cancelbtn" onclick="location.href = 'http://192.168.0.101:8180/configs';">Cancelar</button>
             </div>
         </form>
     </div>

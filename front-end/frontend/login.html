@@ -92,6 +92,7 @@
         }
     </style>
     <script type="text/javascript" src="./static/js/HttpClientLogin.js"></script>
+    <script type="text/javascript" src="./static/js/ConstantsLogin.js"></script>
 </head>
 
 <body>
@@ -121,13 +122,9 @@
                 password: document.getElementById("pass").value
             }
 
-            var url = "http://localhost:8080/api/login"
+            var url = new ConstantsLogin().getUrl() + "/api/login";
             var client = new HttpClientLogin();
-            /*
-                var response = client.postAssincJson(url, jsonStr, function(response) {
-                    console.log(response);
-                });
-            */
+
             client.autenticate(url, json);
             //console.log(response);
 

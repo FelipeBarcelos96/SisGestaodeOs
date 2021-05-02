@@ -47,11 +47,12 @@ public class PrioridadeHandler extends Handler {
 					
 				}
 			}catch(Exception e) {
+				exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
 				exchange.sendResponseHeaders(StatusCode.BAD_REQUEST.getCode(), -1);
 				System.out.println("Error! Alert: ");
 				e.printStackTrace();
 			}
-
+			exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
 			exchange.sendResponseHeaders(200, resp.getBytes().length);
 			OutputStream output = exchange.getResponseBody();
 			output.write(resp.getBytes());
@@ -67,6 +68,7 @@ public class PrioridadeHandler extends Handler {
 				}
 			}catch(Exception e) {
 				resp = e.getMessage();
+				exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
 				exchange.sendResponseHeaders(StatusCode.BAD_REQUEST.getCode(), resp.getBytes().length);
 				OutputStream output = exchange.getResponseBody();
 				output.write(resp.getBytes());
@@ -74,7 +76,7 @@ public class PrioridadeHandler extends Handler {
 				System.out.println("Error! Alert: ");
 				e.printStackTrace();
 			}
-
+			exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
 			exchange.sendResponseHeaders(StatusCode.ACCEPTED.getCode(), -1);
 			
 			OutputStream output = exchange.getResponseBody();
@@ -94,6 +96,7 @@ public class PrioridadeHandler extends Handler {
         	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
         	response = super.writeResponse(e.getBody());
         }else {
+        	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
 			exchange.sendResponseHeaders(StatusCode.METHOD_NOT_ALLOWED.getCode(), -1);// 405 Method Not Allowed
 		}
 		exchange.close();

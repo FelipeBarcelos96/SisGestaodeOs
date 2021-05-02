@@ -2,8 +2,10 @@ import AbstractView from "./AbstractView.js";
 import HttpClient from "../HttpClient.js";
 import User from "./User.js";
 import Equipes from "./Equipes.js";
+import Constants from "../Constants.js";
 
-
+const ipUrl = new Constants().ipUrl;
+const urlRaiz = new Constants().ipRaiz;
 export default class extends AbstractView {
     constructor(params) {
         super(params);
@@ -30,7 +32,7 @@ export default class extends AbstractView {
             var ehGestor = (json[i].ehGestor ? 'Sim' : 'Não');
             var ehDev = (json[i].ehDev ? 'Sim' : 'Não');
             var ehAnal = (json[i].ehAnal ? 'Sim' : 'Não');
-            var url = "http://localhost:8180/users/" + json[i].id;
+            var url = urlRaiz + "/users/" + json[i].id;
             dados = dados + `<tr>
             <th><a href="${url}">${json[i].id}</a></th>
             <th>${json[i].nome}</th>
@@ -47,7 +49,7 @@ export default class extends AbstractView {
     getUsersJson() {
         var users;
 
-        var url = "http://localhost:8080/api/users";
+        var url = ipUrl + "/api/users";
         var client = new HttpClient();
 
         users = client.getSinc(url);
@@ -69,9 +71,9 @@ export default class extends AbstractView {
             }
         }
         if (codEquipe >= 0)
-            return "http://localhost:8180/equips/" + codEquipe;
+            return urlRaiz + "/equips/" + codEquipe;
         else
-            return "http://localhost:8180/users/"
+            return urlRaiz + "/users/";
 
     }
 
@@ -114,7 +116,7 @@ export default class extends AbstractView {
                     headerFilter: "number",
                     editor: false,
                     cellClick: function(e, cell) {
-                        window.location.replace("http://localhost:8180/users/" + cell.getValue());
+                        window.location.replace(urlRaiz + "/users/" + cell.getValue());
                     },
                 },
                 { title: "Nome", field: "nome", sorter: "string", headerFilter: "input", hozAlign: "center", width: 200, editor: "input" },
@@ -137,10 +139,10 @@ export default class extends AbstractView {
                     title: "Excluir",
                     field: "excluir",
                     cellClick: function(e, cell) {
-                        var url = "http://localhost:8080/api/users?id=" + cell.getRow().getIndex();
+                        var url = ipUrl + "/api/users?id=" + cell.getRow().getIndex();
                         var client = new HttpClient();
                         client.delSinc(url);
-                        window.location.replace("http://localhost:8180/users");
+                        window.location.replace(urlRaiz + "/users");
                     }
                 }
             ],

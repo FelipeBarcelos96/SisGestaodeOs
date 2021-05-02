@@ -11,7 +11,7 @@ import lombok.Value;
 class RequisitoUpdateRequest {
 	int codReq;
 	UsuarioJson analista;
-	String Titulo;
-	String Descricao;
+	String titulo;
+	String descricao;
 	Timestamp prazo;
 }
