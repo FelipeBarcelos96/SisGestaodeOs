@@ -9,4 +9,5 @@ import lombok.Value;
 class LoginResponse {
      Boolean response;
      String url;
+     int id;
 }

@@ -44,7 +44,8 @@ public class RequisitoHandler extends Handler {
 					ArrayList<Requisito> requisitos = RequisitoDao.getInstance().getAll();
 					
 						resp = new Gson().toJson(requisitos);
-					
+						//System.out.println(requisitos.get(0).getPrazo());
+					//	System.out.println(new Gson().toJson(resp));
 				}
 			}catch(Exception e) {
 				exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);

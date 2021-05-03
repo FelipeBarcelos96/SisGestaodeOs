@@ -87,9 +87,10 @@ class HttpClientLogin {
             xmlHttp.onreadystatechange = () => {
                 if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                     let obj = JSON.parse(xmlHttp.response);
-                    if (obj.response)
+                    if (obj.response) {
+                        localStorage.id = obj.id;
                         window.location.replace(obj.url);
-
+                    }
                 }
                 if (xmlHttp.readyState === 4 && xmlHttp.status === 401) {
                     alert("Login/Senha Inválidos!");

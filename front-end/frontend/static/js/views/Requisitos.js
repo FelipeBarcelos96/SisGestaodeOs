@@ -31,16 +31,19 @@ export default class extends AbstractView {
         let json = this.getRequisitosJson();
         console.log(JSON.stringify(json));
         var tabledata = [];
-        for (let i = 0; i < json.length; i++) {
-            tabledata[i] = {
-                codReq: json[i].codReq,
-                analista: json[i].analista.nome,
-                titulo: json[i].titulo,
-                descricao: json[i].descricao,
-                prazo: json[i].prazo,
-                excluir: "Excluir"
-            }
+        //   let a = [{ day: 'numeric' }, { month: 'numeric' }, { year: 'numeric' }];
 
+        for (let i = 0; i < json.length; i++) {
+            // let prazo = await new Constants().formatarData(json[i].prazo).then();
+            tabledata[i] = {
+                    codReq: json[i].codReq,
+                    analista: json[i].analista.nome,
+                    titulo: json[i].titulo,
+                    descricao: json[i].descricao,
+                    prazo: await new Constants().formatarDataForm(json[i].prazo), // prazo,
+                    excluir: "Excluir"
+                }
+                // console.log(prazo);
         }
 
 
@@ -59,7 +62,7 @@ export default class extends AbstractView {
             //cancel - function to call to abort the edit and return to a normal cell
 
             //create and style input
-            var cellValue = moment(cell.getValue(), "DD/MM/YYYY"),
+            var cellValue = moment(cell.getValue(), "DD/MM/YYYY hh:mm"),
                 input = document.createElement("input");
 
             input.setAttribute("type", "date");
@@ -77,7 +80,7 @@ export default class extends AbstractView {
 
             function onChange() {
                 if (input.value != cellValue) {
-                    success(moment(input.value, "YYYY-MM-DD").format("DD/MM/YYYY"));
+                    success(moment(input.value, "YYYY-MM-DD hh:mm").format("DD/MM/YYYY hh:mm"));
                 } else {
                     cancel();
                 }
@@ -132,20 +135,20 @@ export default class extends AbstractView {
                 {
                     title: "Prazo",
                     field: "prazo",
-                    sorter: "string",
-                    //   formatter: "datetime",
-                    sorterParams: { format: "DD/MM/YY" },
+                    sorter: "datetime",
+                    sorterParams: { format: "dd/mm/yyyy, hh/mm" },
                     hozAlign: "center",
                     width: 100,
-                    editor: dateEditor,
+                    formatter: "datetime",
+                    // editor: dateEditor,
                     /*
-                      formatterParams: {
-                          inputFormat: "MMMM d, yyyy, h:mm:ss a",
-                          outputFormat: "DD/MM/yyyy",
-                          invalidPlaceholder: "(invalid date)",
-                          timezone: "America/Sao_Paulo",
-                      }
-                      */
+                    formatterParams: {
+                        inputFormat: "d/M/yyyy HH:mm:ss",
+                        outputFormat: "d/MM/yyyy HH:mm:ss",
+                        invalidPlaceholder: "(invalid date)",
+                        // timezone: "America/Sao_Paulo",
+                    }
+                   */
                 },
                 { title: "Descricao", field: "descricao", sorter: "string", formatter: "textarea", headerFilter: "input", hozAlign: "center", width: 200, editor: "input" },
                 {

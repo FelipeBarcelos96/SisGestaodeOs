@@ -115,7 +115,7 @@ public class OrdemRegistrationHandler extends Handler {
     			, updateRequest.getRequisito().getRequisito()
     			, updateRequest.getStatus().getStatus()
     			, updateRequest.getPrioridade().getPrioridade()
-    			,updateRequest.getEquipe().getEquipe()
+    			, updateRequest.getEquipe().getEquipe()
     			, updateRequest.getEmissao()
     			, updateRequest.getDescricao()
     			, updateRequest.getEsforco()

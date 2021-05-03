@@ -16,7 +16,7 @@ public final class ManipuladorDePropriedades {
 		FileInputStream file = new FileInputStream(dir);
 				//"./properties/dados.properties");
 		props.load(file);
-		}catch(Exception e) {
+		}catch(IOException e) {
 			System.out.println("Error! Alert: "+e.getMessage());
 			e.printStackTrace();
 		}finally {
