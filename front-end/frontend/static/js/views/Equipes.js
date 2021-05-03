@@ -64,12 +64,6 @@ export default class extends AbstractView {
 
     async loadTable() {
 
-
-
-        let a = [{ day: 'numeric' }, { month: 'numeric' }, { year: 'numeric' }];
-        let s = new Constants().join(new Date, a, '/');
-        console.log(s);
-
         var json = this.getEquips();
         //console.log(JSON.stringify(json));
         var tabledata = [];

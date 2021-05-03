@@ -1,25 +1,17 @@
 package br.com.ufes.sisgestaoOS.main;
 
-import java.io.OutputStream;
-import java.net.InetSocketAddress;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
 
-import com.sun.net.httpserver.HttpServer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.ufes.sisgestaoOS.SQLUtils.OracleConnector;
-import br.com.ufes.sisgestaoOS.api.ApiUtils;
+import br.com.ufes.sisgestaoOS.dao.UsuarioDao;
 import br.com.ufes.sisgestaoOS.model.Equipe;
 import br.com.ufes.sisgestaoOS.model.Requisito;
 import br.com.ufes.sisgestaoOS.model.Usuario;
@@ -29,6 +21,15 @@ public class Testes {
 
 	public static void main(String[] args) {
 		
+		try {
+			System.out.println(Integer.toString(UsuarioDao.getInstance().get(11).getId()));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//new ObjectMapper().readValue(string, RequisitoUpdateRequest.class);
+		
+		/*
 		Date time;
 		time = new Date(Timestamp.valueOf(LocalDateTime.now()).getTime());
 		System.out.println(time);
@@ -79,7 +80,7 @@ public class Testes {
 			e.printStackTrace();
 		}
 		
-		/*
+		
 		try {
 			int serverPort = 8080;
 	        HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);

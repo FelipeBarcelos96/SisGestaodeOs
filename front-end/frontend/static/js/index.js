@@ -11,6 +11,7 @@ import Ordens from "./views/Ordens.js";
 import Prioridade from "./views/Prioridade.js";
 import Constants from "./Constants.js"
 import BemVindo from "./views/BemVindo.js";
+import Ordem from "./views/Ordem.js";
 
 
 const pathToRegex = path => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -72,6 +73,64 @@ const getUserByNome = nome => {
     return usuario;
 };
 
+const getRequisitoByTitulo = titulo => {
+    let requisitos = new Requisitos().getRequisitosJson();
+
+    var requisito;
+    for (let i = 0; i < requisitos.length; i++) {
+        if (requisitos[i].titulo === titulo) {
+            requisito = {
+                codReq: requisitos[i].codReq,
+                analista: {
+                    id: requisitos[i].analista.id,
+                    login: requisitos[i].analista.login,
+                    password: requisitos[i].analista.password,
+                    ehAdm: requisitos[i].analista.ehAdm,
+                    ehGestor: requisitos[i].analista.ehGestor,
+                    ehDev: requisitos[i].analista.ehDev,
+                    ehAnal: requisitos[i].analista.ehAnal,
+                    equipe: requisitos[i].analista.equipe
+                },
+                titulo: requisitos[i].titulo,
+                descricao: requisitos[i].descricao,
+                //prazo: requisitos[i].prazo
+            }
+        }
+    }
+    return requisito;
+};
+
+const getStastusByStatus = stat => {
+    let statuss = new Status().getStatus();
+
+    var status;
+    for (let i = 0; i < statuss.length; i++) {
+        if (statuss[i].status === stat) {
+            status = {
+                codStatus: statuss[i].codStatus,
+                status: statuss[i].status
+            }
+        }
+    }
+    return status;
+};
+
+const getPrioridadeByNome = nome => {
+    let prioridades = new Prioridade().getPrioridades();
+
+    var prioridade;
+    for (let i = 0; i < prioridades.length; i++) {
+        if (prioridades[i].nome === nome) {
+            prioridade = {
+                id: prioridades[i].id,
+                nome: prioridades[i].nome
+            }
+        }
+    }
+    return prioridade;
+};
+
+
 const navigateTo = url => {
     history.pushState(null, null, url);
     router();
@@ -95,7 +154,9 @@ const router = async() => {
         { path: "/requisitos/:id", view: Requisito },
         { path: "/configs", view: Prioridade },
         { path: "/stats/cad", view: Status },
-        { path: "/prio/cad", view: Prioridade }
+        { path: "/prio/cad", view: Prioridade },
+        { path: "/ordens/cad", view: Ordens },
+        { path: "/ordens/:id", view: Ordem }
     ];
 
     // Test each route for potential match
@@ -146,11 +207,7 @@ const router = async() => {
             }
             var url = ipUrl + "/api/users/register"
             var client = new HttpClient();
-            /*
-                var response = client.postAssincJson(url, jsonStr, function(response) {
-                    console.log(response);
-                });
-            */
+
             client.postAssincJson(url, json);
             //console.log(response);
 
@@ -168,6 +225,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
         //document.querySelector("#equipSelect").innerHTML = await new Equipes().getOptionsHtml();
 
     } else if (match.route.path === "/users") {
@@ -207,6 +266,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/users/:id") {
         //document.querySelector("#user").innerHTML += await new User(getParams(match)).getHtml();
         var user = new User(getParams(match));
@@ -254,7 +315,7 @@ const router = async() => {
             var url = ipUrl + "/api/users?id=" + user.userId;
             var client = new HttpClient();
             client.delSinc(url);
-            window.location.replace(ipUrl + "/users");
+            window.location.replace(urlRaiz + "/users");
         });
 
         document.getElementById("app").hidden = true;
@@ -270,14 +331,17 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/requisitos/:id") {
         //document.querySelector("#user").innerHTML += await new User(getParams(match)).getHtml();
         var req = new Requisito(getParams(match));
+        //console.log(req.prazo);
         document.getElementById("requisitoTitle").innerHTML = req.titulo;
-        document.getElementById("requisitoId").innerHTML = "Você está vendo o Usuário de Id " + req.codReq;
+        document.getElementById("requisitoId").innerHTML = "Você está vendo o Requisito de Id " + req.codReq;
         document.getElementById("requisitoTitulo").value = req.titulo;
         document.getElementById("requisitoDescricao").value = req.descricao;
-        document.getElementById("requisitoPrazo").value = req.prazo;
+        document.getElementById("requisitoPrazo").value = await new Constants().formatarDataForm(req.prazo);
         let usersJson = await new Users().getUsersJson();
         var reqUsers = document.getElementById("requisitoUser");
         for (let i = 0; i < usersJson.length; i++) {
@@ -298,22 +362,22 @@ const router = async() => {
                 id: user.value
             }).getUser();
             let json = {
-                codReq: req.codReq,
-                analista: {
-                    id: analistaUser.id,
-                    equipe: analistaUser.equipe,
-                    login: analistaUser.nome,
-                    password: analistaUser.pass,
-                    ehAdm: analistaUser.ehAdm,
-                    ehGestor: analistaUser.ehGestor,
-                    ehDev: analistaUser.ehDev,
-                    ehAnal: analistaUser.ehAnal
-                },
-                titulo: document.getElementById("requisitoTitulo").value,
-                descricao: document.getElementById("requisitoDescricao").value,
-                prazo: document.getElementById("requisitoPrazo").value
-            }
-
+                    codReq: req.codReq,
+                    analista: {
+                        id: analistaUser.id,
+                        equipe: analistaUser.equipe,
+                        login: analistaUser.nome,
+                        password: analistaUser.pass,
+                        ehAdm: analistaUser.ehAdm,
+                        ehGestor: analistaUser.ehGestor,
+                        ehDev: analistaUser.ehDev,
+                        ehAnal: analistaUser.ehAnal
+                    },
+                    titulo: document.getElementById("requisitoTitulo").value,
+                    descricao: document.getElementById("requisitoDescricao").value,
+                    prazo: document.getElementById("requisitoPrazo").value
+                }
+                // console.log(document.getElementById("requisitoPrazo").value);
             new HttpClient().putSinc(ipUrl + "/api/requisito/register", json);
 
             alert("Atualização efetuada com Sucesso");
@@ -324,7 +388,7 @@ const router = async() => {
             var url = ipUrl + "/api/requisito?id=" + user.userId;
             var client = new HttpClient();
             client.delSinc(url);
-            window.location.replace(ipUrl + "/requisitos");
+            window.location.replace(urlRaiz + "/requisitos");
         });
 
         document.getElementById("app").hidden = true;
@@ -340,6 +404,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = false;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/equips") {
 
         var table = await view.getTable();
@@ -371,6 +437,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/equips/cad") {
         let equipCad = document.getElementById("equipCad");
         equipCad.addEventListener("submit", (e) => {
@@ -394,6 +462,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/requisitos/cad") {
         let analistasJson = await new Users().getUsersJson();
         var analistas = document.getElementById("cadRequisitoUser");
@@ -427,6 +497,7 @@ const router = async() => {
                 descricao: document.getElementById("requisitoCadDescricao").value,
                 prazo: document.getElementById("requisitoCadPrazo").value
             }
+            console.log(document.getElementById("requisitoCadPrazo").value);
             let url = ipUrl + "/api/requisito/register"
             let client = new HttpClient();
             client.postAssincJson(url, json);
@@ -443,6 +514,160 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = false;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
+    } else if (match.route.path === "/ordens/cad") {
+
+        let solicitantesJson = await new Users().getUsersJson();
+        var solicitantes = document.getElementById("cadOrdemSolicitante");
+        for (let i = 0; i < solicitantesJson.length; i++) {
+            let option = document.createElement("option");
+            option.value = solicitantesJson[i].id;
+            option.text = solicitantesJson[i].nome;
+            solicitantes.appendChild(option);
+        }
+
+        let encarregadosJson = await new Users().getUsersJson();
+        var encarregados = document.getElementById("cadOrdemEncarregado");
+        for (let i = 0; i < encarregadosJson.length; i++) {
+            let option = document.createElement("option");
+            option.value = encarregadosJson[i].id;
+            option.text = encarregadosJson[i].nome;
+            encarregados.appendChild(option);
+        }
+
+        let requisitosJson = await new Requisitos().getRequisitosJson();
+        var requisitos = document.getElementById("cadOrdemRequisito");
+        for (let i = 0; i < requisitosJson.length; i++) {
+            let option = document.createElement("option");
+            option.value = requisitosJson[i].codReq;
+            option.text = requisitosJson[i].titulo;
+            requisitos.appendChild(option);
+        }
+
+        let prioridadesJson = await new Prioridade().getPrioridades();
+        var prioridades = document.getElementById("cadOrdemPrioridade");
+        for (let i = 0; i < prioridadesJson.length; i++) {
+            let option = document.createElement("option");
+            option.value = prioridadesJson[i].id;
+            option.text = prioridadesJson[i].nome;
+            prioridades.appendChild(option);
+        }
+
+        let statusJson = await new Status().getStatus();
+        var status = document.getElementById("cadOrdemStatus");
+        for (let i = 0; i < statusJson.length; i++) {
+            let option = document.createElement("option");
+            option.value = statusJson[i].codStatus;
+            option.text = statusJson[i].status;
+            status.appendChild(option);
+        }
+
+        let equipsJson = await new Equipes().getEquips();
+        var userEquipes = document.getElementById("cadOrdemEquipe");
+        for (let i = 0; i < equipsJson.length; i++) {
+            let option = document.createElement("option");
+            option.value = equipsJson[i].codEquipe;
+            option.text = equipsJson[i].sigla;
+            userEquipes.appendChild(option);
+        }
+
+        let ordemCad = document.getElementById("ordemCad");
+        ordemCad.addEventListener("submit", (e) => {
+            e.preventDefault();
+            let solicitanteUser = new User({
+                id: document.getElementById("cadOrdemSolicitante").value
+            }).getUser();
+            let encarregadoUser = new User({
+                id: document.getElementById("cadOrdemEncarregado").value
+            }).getUser();
+            let requisito = new Requisito({
+                id: document.getElementById("cadOrdemRequisito").value
+            });
+            let prazo = new Constants().formatarDataForm(requisito.prazo);
+            let status = document.getElementById("cadOrdemStatus");
+            let prioridade = document.getElementById("cadOrdemPrioridade");
+
+            let equipe = new Equipe({
+                id: document.getElementById("cadOrdemEquipe").value
+            });
+            console.log(prazo);
+            let json = {
+                solicitante: {
+                    id: solicitanteUser.id,
+                    equipe: solicitanteUser.equipe,
+                    login: solicitanteUser.nome,
+                    password: solicitanteUser.pass,
+                    ehAdm: solicitanteUser.ehAdm,
+                    ehGestor: solicitanteUser.ehGestor,
+                    ehDev: solicitanteUser.ehDev,
+                    ehAnal: solicitanteUser.ehAnal
+                },
+                encarregado: {
+                    id: encarregadoUser.id,
+                    equipe: encarregadoUser.equipe,
+                    login: encarregadoUser.nome,
+                    password: encarregadoUser.pass,
+                    ehAdm: encarregadoUser.ehAdm,
+                    ehGestor: encarregadoUser.ehGestor,
+                    ehDev: encarregadoUser.ehDev,
+                    ehAnal: encarregadoUser.ehAnal
+                },
+                requisito: {
+                    codReq: requisito.codReq,
+                    analista: {
+                        id: requisito.analista.id,
+                        equipe: {
+                            codEquipe: requisito.analista.equipe.id,
+                            sigla: requisito.analista.equipe.sigla
+                        },
+                        login: requisito.analista.nome,
+                        password: requisito.analista.pass,
+                        ehAdm: requisito.analista.ehAdm,
+                        ehGestor: requisito.analista.ehGestor,
+                        ehDev: requisito.analista.ehDev,
+                        ehAnal: requisito.analista.ehAnal
+                    },
+                    titulo: requisito.titulo,
+                    descricao: requisito.descricao
+                },
+                status: {
+                    codStatus: status.value,
+                    status: status.text
+                },
+                prioridade: {
+                    id: prioridade.value,
+                    nome: prioridade.text
+                },
+                equipe: {
+                    codEquipe: equipe.id,
+                    sigla: equipe.sigla
+                },
+                emissao: document.getElementById("ordemCadEmissao").value,
+                descricao: document.getElementById("ordemCadDescricao").value,
+                esforco: document.getElementById("ordemCadEsforco").value,
+                entrega: document.getElementById("ordemCadConclusao").value,
+                vlrEstimado: document.getElementById("ordemCadVlrEstimado").value
+            }
+
+            let url = ipUrl + "/api/ordem/register"
+            let client = new HttpClient();
+            client.postAssincJson(url, json);
+        });
+        document.getElementById("app").hidden = true;
+        document.getElementById("userCadForm").hidden = true;
+        document.getElementById("users").hidden = true;
+        document.getElementById("user").hidden = true;
+        document.getElementById("equips").hidden = true;
+        document.getElementById("equipCadForm").hidden = true;
+        document.getElementById("equipe").hidden = true;
+        document.getElementById("configs").hidden = true;
+        document.getElementById("statusCadForm").hidden = true;
+        document.getElementById("requisitos").hidden = true;
+        document.getElementById("requisitoCadForm").hidden = true;
+        document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = false;
     } else if (match.route.path === "/equips/:id") {
         var equipe = new Equipe(getParams(match));
         document.getElementById("equipeTitle").innerHTML = equipe.sigla;
@@ -468,7 +693,7 @@ const router = async() => {
             var url = ipUrl + "/api/equips?id=" + equipe.equipId;
             var client = new HttpClient();
             client.delSinc(url);
-            window.location.replace("http://localhost:8180/equips");
+            window.location.replace(urlRaiz + "/equips");
         });
 
         document.getElementById("app").hidden = true;
@@ -484,9 +709,12 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/login/:id") {
         // userLogado = new User(getParams(match));
-        localStorage.id = getParams(match).id;
+        // alert(getParams(match).id);
+        // localStorage.id = getParams(match).id;
         window.location.replace(urlRaiz);
     } else if (match.route.path === "/configs") {
         var statusTable = await new Status().loadTable();
@@ -528,6 +756,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/requisitos") {
         var requisitosTable = await new Requisitos().loadTable();
         var salvarRequisitos = document.getElementById("salvarRequisitosButton");
@@ -561,6 +791,53 @@ const router = async() => {
         document.getElementById("requisitos").hidden = false;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
+    } else if (match.route.path === "/ordens") {
+        var ordensTable = await new Ordens().loadTable();
+        var salvarOrdens = document.getElementById("salvarOrdensButton");
+        salvarOrdens.addEventListener("click", function() {
+            var ordsData = ordensTable.getData();
+            for (let i = 0; i < ordsData.length; i++) {
+                //console.log(getEquipBySigla(userData[i].equipe));
+                let json = {
+                    codOs: ordsData[i].codOs,
+                    solicitante: getUserByNome(ordsData[i].solicitante),
+                    encarregado: getUserByNome(ordsData[i].encarregado),
+                    requisito: getRequisitoByTitulo(ordsData[i].requisito),
+                    status: getStastusByStatus(ordsData[i].status),
+                    prioridade: getPrioridadeByNome(ordsData[i].prioridade),
+                    equipe: {
+                        codEquipe: getEquipBySigla(ordsData[i].equipe),
+                        sigla: ordsData[i].equipe
+                    },
+                    emissao: ordsData[i].emissao,
+                    descricao: ordsData[i].descricao,
+                    esforco: ordsData[i].esforco,
+                    entrega: ordsData[i].entrega,
+                    vlrEstimado: ordsData[i].vlrEstimado
+                }
+
+                new HttpClient().putSinc(ipUrl + "/api/ordem/register", json);
+            }
+            alert("Atualização efetuada com Sucesso");
+        });
+
+        document.getElementById("app").hidden = true;
+        document.getElementById("userCadForm").hidden = true;
+        document.getElementById("users").hidden = true;
+        document.getElementById("user").hidden = true;
+        document.getElementById("equips").hidden = true;
+        document.getElementById("equipCadForm").hidden = true;
+        document.getElementById("equipe").hidden = true;
+        document.getElementById("configs").hidden = true;
+        document.getElementById("statusCadForm").hidden = true;
+        document.getElementById("prioridadeCadForm").hidden = true;
+        document.getElementById("requisitos").hidden = true;
+        document.getElementById("requisitoCadForm").hidden = true;
+        document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = false;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/stats/cad") {
         let statsCad = document.getElementById("statusCad");
         statsCad.addEventListener("submit", (e) => {
@@ -585,6 +862,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else if (match.route.path === "/prio/cad") {
         let prioCad = document.getElementById("prioridadeCad");
         prioCad.addEventListener("submit", (e) => {
@@ -609,6 +888,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     } else {
         document.getElementById("app").hidden = false;
         document.getElementById("userCadForm").hidden = true;
@@ -623,6 +904,8 @@ const router = async() => {
         document.getElementById("requisitos").hidden = true;
         document.getElementById("requisitoCadForm").hidden = true;
         document.getElementById("requisito").hidden = true;
+        document.getElementById("ordens").hidden = true;
+        document.getElementById("ordemCadForm").hidden = true;
     }
 
     document.querySelector("#app").innerHTML = await view.getHtml();

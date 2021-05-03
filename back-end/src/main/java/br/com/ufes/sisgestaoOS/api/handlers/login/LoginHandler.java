@@ -13,12 +13,7 @@ import br.com.ufes.sisgestaoOS.api.handlers.Handler;
 import br.com.ufes.sisgestaoOS.dao.UsuarioDao;
 import br.com.ufes.sisgestaoOS.erros.ApplicationExceptions;
 import br.com.ufes.sisgestaoOS.erros.GlobalExceptionHandler;
-import br.com.ufes.sisgestaoOS.model.Equipe;
 import br.com.ufes.sisgestaoOS.model.Usuario;
-import br.com.ufes.sisgestaoOS.service.UserService;
-import br.com.ufes.sisgestaoOS.service.json.EquipeJson;
-import br.com.ufes.sisgestaoOS.service.novo.NovoUsuario;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -68,6 +63,7 @@ public class LoginHandler extends Handler {
         LoginRequest registerRequest = super.readRequest(is, LoginRequest.class);
         Boolean resp = Boolean.FALSE;
         String url = null;
+        int id = 0;
         try {
 			ArrayList<Usuario> usuarios = UsuarioDao.getInstance().getAll();
 			for(Usuario user : usuarios) {
@@ -76,6 +72,8 @@ public class LoginHandler extends Handler {
 						) {
 					resp = Boolean.TRUE;
 					url = Constants.URL_IP+":8180/login/"+ Integer.toString(user.getId());
+					id = user.getId();
+					System.out.println("Usuário de ID "+ Integer.toString(user.getId()) + "Logando");
 				}
 			}
 		} catch (SQLException e) {
@@ -83,7 +81,7 @@ public class LoginHandler extends Handler {
 			e.printStackTrace();
 		}
         
-        LoginResponse response = LoginResponse.builder().response(resp).url(url).build();
+        LoginResponse response = LoginResponse.builder().response(resp).url(url).id(id).build();
         
         if(resp) {
         return new ResponseEntity<>(response,

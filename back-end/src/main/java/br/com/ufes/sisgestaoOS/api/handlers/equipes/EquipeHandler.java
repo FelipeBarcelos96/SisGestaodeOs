@@ -18,7 +18,6 @@ import br.com.ufes.sisgestaoOS.api.StatusCode;
 import br.com.ufes.sisgestaoOS.api.handlers.Handler;
 import br.com.ufes.sisgestaoOS.dao.EquipeDao;
 import br.com.ufes.sisgestaoOS.erros.GlobalExceptionHandler;
-import br.com.ufes.sisgestaoOS.main.Application;
 import br.com.ufes.sisgestaoOS.model.Equipe;
 
 public class EquipeHandler extends Handler {

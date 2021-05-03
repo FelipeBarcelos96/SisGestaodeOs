@@ -130,7 +130,7 @@ private Connection conn = OracleConnector.getInstance().connect();
         if(0 == rs.getInt("EXISTE"))
         	System.out.println("Ordem de Serviço Não Encontrada!");
         else{
-           sql = "UPDATE REQUISITOS SET CODSOLICITANTE = ? , CODENCARREGADO = ? , CODREQ = ? , CODSTATUS = ?, PRIORIDADE = ? , CODEQUIPE = ?,"
+           sql = "UPDATE ORDENS SET CODSOLICITANTE = ? , CODENCARREGADO = ? , CODREQ = ? , CODSTATUS = ?, PRIORIDADE = ? , CODEQUIPE = ?,"
            		+ " EMISSAO = ?, DESCRICAO = ?, ESFORCO = ? , ENTREGA = ?, VLRESTIMADO = ? WHERE CODOS = ?";
           stmt = conn.prepareStatement(sql);
           stmt.setInt(1, ord.getSolicitante().getId());

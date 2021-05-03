@@ -3,15 +3,18 @@ package br.com.ufes.sisgestaoOS.api.handlers.requisitos;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import br.com.ufes.sisgestaoOS.api.Constants;
 import br.com.ufes.sisgestaoOS.api.ResponseEntity;
 import br.com.ufes.sisgestaoOS.api.StatusCode;
 import br.com.ufes.sisgestaoOS.api.handlers.Handler;
 import br.com.ufes.sisgestaoOS.erros.ApplicationExceptions;
 import br.com.ufes.sisgestaoOS.erros.GlobalExceptionHandler;
-import br.com.ufes.sisgestaoOS.model.Equipe;
 import br.com.ufes.sisgestaoOS.model.Requisito;
-import br.com.ufes.sisgestaoOS.model.Usuario;
 import br.com.ufes.sisgestaoOS.service.RequisitoService;
 import br.com.ufes.sisgestaoOS.service.json.EquipeJson;
 import br.com.ufes.sisgestaoOS.service.json.UsuarioJson;
@@ -76,6 +79,8 @@ public class RequisitoRegistrationHandler extends Handler {
     	
         RequisitoRegistrationRequest registerRequest = super.readRequest(is, RequisitoRegistrationRequest.class);
         
+        System.out.println(registerRequest.getPrazo());
+        
         NovoRequisito requisito;
         
 			requisito = NovoRequisito.builder()
@@ -83,9 +88,7 @@ public class RequisitoRegistrationHandler extends Handler {
 			        .titulo(registerRequest.getTitulo())
 			        .descricao(registerRequest.getDescricao())
 			        .prazo(registerRequest.getPrazo())
-			        .build();
-			
-			//System.out.println(requisito.toString());
+			        .build();			
 		
         int requisitoId = requisitoService.create(requisito);
 
@@ -115,13 +118,14 @@ public class RequisitoRegistrationHandler extends Handler {
     
     private ResponseEntity<RequisitoUpdateResponse> doPut(InputStream is) {
     	RequisitoUpdateRequest updateRequest = super.readRequest(is, RequisitoUpdateRequest.class);
-
+    	System.out.println(updateRequest.getPrazo());
     	Requisito requisito = new Requisito(
     			updateRequest.getCodReq()
     			, updateRequest.getAnalista().getUsuario()
     			, updateRequest.getTitulo()
     			, updateRequest.getDescricao()
     			, updateRequest.getPrazo()
+    		//	, new Timestamp(new Date(Date.parse(updateRequest.getPrazo())).getTime())
     			);    			
         
         requisitoService.update(requisito);
