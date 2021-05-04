@@ -15,10 +15,10 @@ export default class extends AbstractView {
         var ord = this.getOrdem();
         this.solicitante = new User({ id: ord.solicitante.id });
         this.encarregado = new User({ id: ord.encarregado.id });
-        this.requisito = new Requisito({ id: ord.requisito.id });
+        this.requisito = new Requisito({ id: ord.requisito.codReq });
         this.status = ord.status;
         this.prioridade = ord.prioridade;
-        this.equipe = new Equipe({ id: ord.equipe.id });
+        this.equipe = new Equipe({ id: ord.equipe.codEquipe });
         this.emissao = ord.emissao;
         this.descricao = ord.descricao;
         this.esforco = ord.esforco;

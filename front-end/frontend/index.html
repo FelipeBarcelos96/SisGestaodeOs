@@ -99,6 +99,65 @@
 
     </div>
 
+    <div hidden id="ordem">
+
+        <div class="container">
+            <h1>Ordem de Serviço</h1>
+            <p id="ordemId">Você está vendo a Ordem de Serviço de Id </p>
+
+            <label for="ordemSolicitante"><b>Solicitante:</b></label>
+            <select name="ordemSolicitante" id="ordemSolicitante">
+                </select>
+
+            <br><br>
+            <label for="ordemRequisito"><b>Requisito:</b></label>
+            <select name="ordemRequisito" id="ordemRequisito">
+                </select>
+            <br><br>
+            <label for="ordemPrioridade"><b>Prioridade:</b></label>
+            <select name="ordemPrioridade" id="ordemPrioridade">
+                </select>
+            <br><br>
+            <label for="ordemEquipe"><b>Equipe:</b></label>
+            <select name="ordemEquipe" id="ordemEquipe">
+                </select>
+            <br><br>
+
+            <label for="ordemDescricao"><b>Descrição:</b></label>
+            <br>
+            <textarea class="text-box" cols="100" rows="4" placeholder="Descricao do Serviço Realizado" name="ordemDescricao" id="ordemDescricao"></textarea>
+
+            <br><br>
+            <label for="ordemEncarregado"><b>Encarregado:</b></label>
+            <select name="ordemEncarregado" id="ordemEncarregado">
+                </select>
+            <br><br>
+
+            <label for="ordemEmissao"><b>Emitida em:</b></label>
+            <input type="datetime-local" name="ordemEmissao" id="ordemEmissao">
+            <br><br>
+
+            <label for="ordemStatus"><b>Status:</b></label>
+            <select name="ordemStatus" id="ordemStatus">
+                </select>
+            <br><br>
+
+            <label for="ordemConclusao"><b>Concluida em:</b></label>
+            <input type="datetime-local" name="ordemConclusao" id="ordemConclusao">
+            <br><br>
+
+            <label for="ordemEsforco"><b>Esforço:</b></label>
+            <input type="number" step="0.01" min=0 name="ordemEsforco" id="ordemEsforco">
+            <br><br>
+            <label for="ordemVlrEstimado"><b>Valor Estimado:</b></label>
+            <input type="number" step="0.01" min=0 name="ordemVlrEstimado" id="ordemVlrEstimado">
+            <br><br>
+
+            <button class="atualizarButton" id="salvarOrdemButton">Salvar Alterações</button>
+            <button class="cancelbtn" id="excluirOrdemButton">Excluir</button>
+        </div>
+    </div>
+
     <div hidden id="userCadForm">
 
         <form enctype='application/json' class="cad-form" method="post" name="cad" id="usercad">
@@ -308,12 +367,12 @@
         <p id="equipeId">Configurações Adicionais.</p>
         <br>
         <p><b>Tipos de Status: </b></p>
-        <div class="table-med" id="statusTable">
+        <div class="table-peq" id="statusTable">
         </div>
         <button id="novoStatusButton" onclick="location.href = 'http://192.168.0.101:8180/stats/cad';">Novo Status</button>
         <br><br>
         <p><b>Tipos de Prioridades: </b></p>
-        <div class="table-med" id="prioridadesTable">
+        <div class="table-peq" id="prioridadesTable">
         </div>
         <button id="novaPrioridadeButton" onclick="location.href = 'http://192.168.0.101:8180/prio/cad';">Nova Prioridade</button>
         <br><br>

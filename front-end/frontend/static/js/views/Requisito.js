@@ -9,6 +9,7 @@ export default class extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle("Requisito");
+        //console.log(params.id);
         this.codReq = params.id;
         let req = this.getRequisito();
         this.analista = new User({ id: req.analista.id });

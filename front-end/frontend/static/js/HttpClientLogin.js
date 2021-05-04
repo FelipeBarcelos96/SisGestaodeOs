@@ -88,7 +88,7 @@ class HttpClientLogin {
                 if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                     let obj = JSON.parse(xmlHttp.response);
                     if (obj.response) {
-                        localStorage.id = obj.id;
+                        //localStorage.id = obj.id;
                         window.location.replace(obj.url);
                     }
                 }
