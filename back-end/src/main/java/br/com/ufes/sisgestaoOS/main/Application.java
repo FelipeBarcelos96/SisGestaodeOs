@@ -19,6 +19,8 @@ import br.com.ufes.sisgestaoOS.api.Constants;
 import br.com.ufes.sisgestaoOS.api.handlers.equipes.EquipeHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.equipes.EquipeRegistrationHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.login.LoginHandler;
+import br.com.ufes.sisgestaoOS.api.handlers.ordens.ArquivoHandler;
+import br.com.ufes.sisgestaoOS.api.handlers.ordens.OrdemArquivoHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.ordens.OrdemHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.ordens.OrdemRegistrationHandler;
 import br.com.ufes.sisgestaoOS.api.handlers.prioridades.PrioridadeHandler;
@@ -61,6 +63,10 @@ public class Application {
 				getErrorHandler());
 		server.createContext("/api/ordem", ordemHandler::handle);
 		
+		ArquivoHandler arquivoHandler = new ArquivoHandler(getObjectMapper(),
+				getErrorHandler());
+		server.createContext("/api/arquivo", arquivoHandler::handle);
+		
 		UsuarioRegistrationHandler usuarioRegistrationHandler = new UsuarioRegistrationHandler(getUserService(), getObjectMapper(),
 				getErrorHandler());
 		server.createContext("/api/users/register", usuarioRegistrationHandler::handle);
@@ -84,6 +90,10 @@ public class Application {
 		OrdemRegistrationHandler ordemRegistrationHandler = new OrdemRegistrationHandler(getOrdemService(), getObjectMapper(),
 				getErrorHandler());
 		server.createContext("/api/ordem/register", ordemRegistrationHandler::handle);
+		
+		OrdemArquivoHandler ordemArquivoHandler = new OrdemArquivoHandler(getOrdemService(), getObjectMapper(),
+				getErrorHandler());
+		server.createContext("/api/ordem/arquivo", ordemArquivoHandler::handle);
 		
 		LoginHandler loginHandler = new LoginHandler(getObjectMapper(),
 				getErrorHandler());

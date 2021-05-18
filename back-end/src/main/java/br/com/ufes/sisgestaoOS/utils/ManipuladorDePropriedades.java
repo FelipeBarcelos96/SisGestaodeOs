@@ -29,4 +29,25 @@ public final class ManipuladorDePropriedades {
 		props.store(file, null);
 	}
 
+	@SuppressWarnings("finally")
+	public static Properties getProp(String diretorio) {
+		Properties props = null;
+		try {
+		props = new Properties();
+		FileInputStream file = new FileInputStream(diretorio);
+				//"./properties/dados.properties");
+		props.load(file);
+		}catch(IOException e) {
+			System.out.println("Error! Alert: "+e.getMessage());
+			e.printStackTrace();
+		}finally {
+		  return props;
+		}
+	}
+	
+	public static void saveProps(Properties props, String diretorio) throws IOException{
+		FileOutputStream file = new FileOutputStream(diretorio);
+		props.store(file, null);
+	}
+
 }

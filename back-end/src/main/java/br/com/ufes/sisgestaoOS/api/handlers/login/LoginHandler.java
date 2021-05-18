@@ -71,9 +71,10 @@ public class LoginHandler extends Handler {
 						&& user.getPass().equals(registerRequest.getPassword())
 						) {
 					resp = Boolean.TRUE;
-					url = Constants.URL_IP+":8180/login/"+ Integer.toString(user.getId());
+					url = Constants.URL_IP+":"+ 
+					"8180" +"/login/"
+							+ Integer.toString(user.getId());
 					id = user.getId();
-					System.out.println("Usuário de ID "+ Integer.toString(user.getId()) + "Logando");
 				}
 			}
 		} catch (SQLException e) {

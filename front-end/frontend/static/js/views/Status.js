@@ -26,7 +26,7 @@ export default class extends AbstractView {
 
         status = client.getSinc(url);
         var json = JSON.parse(status);
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         return json;
     }
 
@@ -44,7 +44,7 @@ export default class extends AbstractView {
 
     async loadTable() {
         var json = this.getStatus();
-        console.log(JSON.stringify(json));
+        //console.log(JSON.stringify(json));
         var tabledata = [];
         for (var i = 0; i < json.length; i++) {
             if (json[i].codStatus > 0) {
@@ -55,7 +55,7 @@ export default class extends AbstractView {
                 }
             }
         }
-        console.log(tabledata);
+        // console.log(tabledata);
         var table = new Tabulator("#statusTable", {
             data: tabledata,
             //  selectable: true,

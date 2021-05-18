@@ -56,4 +56,45 @@ export default class Constants {
         return dataFormatada;
     }
 
+
+    /*
+    identifyMime(file) {
+
+        let encoded = window.atob(file);
+        let extension = undefined;
+        let type = undefined;
+        var typeAndExtension = null;
+        let lowerCase = encoded.toLowerCase();
+
+        var signatures = {
+            JVBERi0: "application/pdf",
+            R0lGODdh: "image/gif",
+            R0lGODlh: "image/gif",
+            iVBORw0KGgo: "image/png"
+        };
+
+        for (var s in signatures) {
+            if (file.indexOf(s) === 0) {
+                typeAndExtension = signatures[s];
+            }
+        }
+
+        if (null !== typeAndExtension) {
+            return "data:" + typeAndExtension + ";base64," + file;
+        } else {
+            if (lowerCase.indexOf("png") !== -1) {
+                extension = "png"
+                type = "image"
+            } else if (lowerCase.indexOf("jpg") !== -1 || lowerCase.indexOf("jpeg") !== -1) {
+                extension = "jpg"
+                type = "image"
+            } else {
+                extension = "txt";
+                type = "text"
+            }
+            return "data:" + type + "/" + extension + ";base64," + file;
+        }
+    };
+    */
+
 }

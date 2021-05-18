@@ -3,11 +3,6 @@ package br.com.ufes.sisgestaoOS.api.handlers.requisitos;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import br.com.ufes.sisgestaoOS.api.Constants;
 import br.com.ufes.sisgestaoOS.api.ResponseEntity;
 import br.com.ufes.sisgestaoOS.api.StatusCode;

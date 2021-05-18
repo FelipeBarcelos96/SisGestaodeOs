@@ -46,7 +46,7 @@ export default class extends AbstractView {
 
     async loadTable() {
         var json = this.getPrioridades();
-        console.log(JSON.stringify(json));
+        // console.log(JSON.stringify(json));
         var tabledata = [];
         for (var i = 0; i < json.length; i++) {
             if (json[i].id > 0) {

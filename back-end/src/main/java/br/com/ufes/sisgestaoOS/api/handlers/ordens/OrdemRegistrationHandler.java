@@ -34,10 +34,18 @@ public class OrdemRegistrationHandler extends Handler {
             @SuppressWarnings("rawtypes")
 			ResponseEntity e = doPost(exchange.getRequestBody());
             exchange.getResponseHeaders().putAll(e.getHeaders());
-            exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
+            exchange.getResponseHeaders()
+            .add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
             exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
             response = super.writeResponse(e.getBody());
-        } else if("OPTIONS".equals(exchange.getRequestMethod())) {
+        } else if("PUT".equals(exchange.getRequestMethod())) {
+        	@SuppressWarnings("rawtypes")
+			ResponseEntity e = doPut(exchange.getRequestBody());
+        	exchange.getResponseHeaders()
+        	.add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
+        	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
+        	response = super.writeResponse(e.getBody());
+        }else if("OPTIONS".equals(exchange.getRequestMethod())) {
         	response = null;
         	@SuppressWarnings("rawtypes")
 			ResponseEntity e = doOption(exchange.getRequestBody());         	
@@ -47,12 +55,6 @@ public class OrdemRegistrationHandler extends Handler {
         	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_EXPOSE_HEADERS, Constants.HEADERS);
         	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_METHODS, Constants.METHODS);
         	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_HEADERS, "Content-type");
-        	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
-        	response = super.writeResponse(e.getBody());
-        }else if("PUT".equals(exchange.getRequestMethod())) {
-        	@SuppressWarnings("rawtypes")
-			ResponseEntity e = doPut(exchange.getRequestBody());
-        	exchange.getResponseHeaders().add(Constants.ACESS_CONTROL_ALLOW_ORIGIN, Constants.ASTERISC);
         	exchange.sendResponseHeaders(e.getStatusCode().getCode(), 0);
         	response = super.writeResponse(e.getBody());
         }
@@ -106,11 +108,12 @@ public class OrdemRegistrationHandler extends Handler {
     }
     
     private ResponseEntity<OrdemUpdateResponse> doPut(InputStream is) {
-    	OrdemUpdateRequest updateRequest = super.readRequest(is, OrdemUpdateRequest.class);
+    	OrdemUpdateRequest updateRequest;
+    	updateRequest = super.readRequest(is, OrdemUpdateRequest.class);
 
     	Ordem ordem = new Ordem(
-    			updateRequest.getCodOs()	
-    			,updateRequest.getSolicitante().getUsuario()
+    			  updateRequest.getCodOs()	
+    			, updateRequest.getSolicitante().getUsuario()
     			, updateRequest.getEncarregado().getUsuario()
     			, updateRequest.getRequisito().getRequisito()
     			, updateRequest.getStatus().getStatus()

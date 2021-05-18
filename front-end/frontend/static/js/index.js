@@ -159,7 +159,7 @@ const router = async() => {
         { path: "/ordens/:id", view: Ordem }
     ];
 
-    // Test each route for potential match
+    // Testa cada Rota por matchs potenciais
     const potentialMatches = routes.map(route => {
         return {
             route: route,
@@ -574,6 +574,66 @@ const router = async() => {
             client.delSinc(url);
             window.location.replace(urlRaiz + "/ordens");
         });
+
+        var realOrdemFileBtn = document.getElementById("real-ordem-file");
+        var ordemButton = document.getElementById("ordemButton");
+        var ordemText = document.getElementById("ordemText");
+
+        var fileInfoJson = JSON.parse(new HttpClient().getSinc(ipUrl + "/api/arquivo?id=" + ord.codOs));
+
+        if (null !== fileInfoJson) {
+            //console.log(fileInfoJson);
+            //  console.log(window.atob(fileDownload));
+            ordemText.href = fileInfoJson.info + "," + fileInfoJson.dados;
+            ordemText.innerHTML = fileInfoJson.nome;
+            ordemText.download = fileInfoJson.nome;
+        } else {
+            ordemText.innerHTML = "Sem Anexo.";
+        }
+
+        ordemButton.addEventListener("click", function() {
+            realOrdemFileBtn.click();
+        });
+
+        realOrdemFileBtn.addEventListener("change", function() {
+            if (realOrdemFileBtn.value) {
+                var reader = new FileReader();
+                reader.readAsDataURL(realOrdemFileBtn.files[0]);
+                reader.onload = function() {
+                    //console.log(reader.result); //base64encoded string
+                    let arquivo = {
+                            codOS: ord.codOs,
+                            nome: realOrdemFileBtn.value.match(
+                                /[\/\\]([\w\d\s\.\-\(\)]+)$/
+                            )[1],
+                            dados: reader.result.substring(reader.result.indexOf(",") + 1),
+                            info: reader.result.substring(0, reader.result.lastIndexOf(","))
+                        }
+                        //console.log(reader.result.substring(0, reader.result.lastIndexOf(",")));
+                    new HttpClient().postAssincJson(ipUrl + "/api/ordem/arquivo", arquivo);
+                };
+                reader.onerror = function(error) {
+                    console.log('Error: ', error);
+                };
+
+                ordemText.innerHTML = realOrdemFileBtn.value.match(
+                    /[\/\\]([\w\d\s\.\-\(\)]+)$/
+                )[1];
+            } else {
+                ordemText.innerHTML = "Sem Anexo.";
+            }
+
+            fileInfoJson = JSON.parse(new HttpClient().getSinc(ipUrl + "/api/arquivo?id=" + ord.codOs));
+
+            if (null !== fileInfoJson) {
+                ordemText.href = fileInfoJson.info + "," + fileInfoJson.dados;
+                ordemText.download = fileInfoJson.nome;
+            } else {
+                ordemText.innerHTML = "Sem Anexo.";
+            }
+        });
+
+
 
         document.getElementById("app").hidden = true;
         document.getElementById("userCadForm").hidden = true;

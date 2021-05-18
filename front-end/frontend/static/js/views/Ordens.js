@@ -149,6 +149,8 @@ export default class extends AbstractView {
         //   console.log(equipsList);
         var table = new Tabulator("#ordensTable", {
             data: tabledata,
+            movableRows: true,
+            movableColumns: true,
             //  selectable: true,
             layout: "fitColumns",
             columns: [{

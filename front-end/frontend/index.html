@@ -14,6 +14,7 @@
     <script type="text/javascript" src="/static/moment/moment-with-locales.js"></script>
     <script type="text/javascript" src="/static/moment/moment.js"></script>
     <script type="text/javascript" src="./static/js/ConstantsLogin.js"></script>
+
 </head>
 
 <body>
@@ -151,6 +152,11 @@
             <br><br>
             <label for="ordemVlrEstimado"><b>Valor Estimado:</b></label>
             <input type="number" step="0.01" min=0 name="ordemVlrEstimado" id="ordemVlrEstimado">
+            <br><br>
+
+            <input type="file" id="real-ordem-file" hidden="hidden" />
+            <button type="button" class="custom-button" id="ordemButton">Anexar Arquivo</button>
+            <a href="#" class="custom-text" id="ordemText" download>No file chosen, yet.</a>
             <br><br>
 
             <button class="atualizarButton" id="salvarOrdemButton">Salvar Alterações</button>
@@ -301,7 +307,7 @@
     <div hidden id="equips">
         <div class="container">
             <h1>Equipes</h1>
-            <div class="table-med" id="equipsTable">
+            <div class="table-peq" id="equipsTable">
             </div>
             <button id="novaEquipeButton" onclick="location.href = 'http://192.168.0.101:8180/equips/cad';">Nova Equipe</button>
             <button class="atualizarButton" id="salvarEquipesButton">Salvar Alterações</button>

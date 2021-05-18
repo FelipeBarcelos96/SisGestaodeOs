@@ -8,7 +8,7 @@ import lombok.Value;
 
 @Value
 @Builder
-class RequisitoUpdateRequest {
+public class RequisitoUpdateRequest {
 	int codReq;
 	UsuarioJson analista;
 	String titulo;

@@ -1,5 +1,15 @@
 class HttpClientLogin {
+
     constructor() {
+
+        this.getSinc = function(theUrl) {
+            var xmlHttp = new XMLHttpRequest();
+            // false para requsição síncrona
+            xmlHttp.open("GET", theUrl, false);
+            xmlHttp.send(null);
+            return xmlHttp.responseText;
+        }
+
         this.getAssinc = function(theUrl, callback) {
             var xmlHttp = new XMLHttpRequest();
             xmlHttp.onreadystatechange = function() {
@@ -8,13 +18,6 @@ class HttpClientLogin {
             }
             xmlHttp.open("GET", theUrl, true); // true for asynchronous 
             xmlHttp.send(null);
-        }
-
-        this.getSinc = function(theUrl) {
-            var xmlHttp = new XMLHttpRequest();
-            xmlHttp.open("GET", theUrl, false); // false for synchronous request
-            xmlHttp.send(null);
-            return xmlHttp.responseText;
         }
 
         this.delSinc = function(theUrl) {
@@ -78,24 +81,22 @@ class HttpClientLogin {
         }
 
         this.autenticate = function(theUrl, jsonString, callback) {
-            const json = JSON.stringify(jsonString);
-
+            var json = JSON.stringify(jsonString);
             var xmlHttp = new XMLHttpRequest();
-
-            xmlHttp.open("POST", theUrl, true); // false for synchronous request
+            //verdadeiro para requisições assícronas.
+            xmlHttp.open("POST", theUrl, true);
             xmlHttp.setRequestHeader("Content-Type", "application/json; charset=utf-8");
             xmlHttp.onreadystatechange = () => {
                 if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                     let obj = JSON.parse(xmlHttp.response);
                     if (obj.response) {
-                        //localStorage.id = obj.id;
                         window.location.replace(obj.url);
                     }
                 }
                 if (xmlHttp.readyState === 4 && xmlHttp.status === 401) {
                     alert("Login/Senha Inválidos!");
                 }
-            }
+            };
             xmlHttp.send(json);
         }
     }
